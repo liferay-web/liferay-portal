@@ -57,6 +57,7 @@ The target repository defaults to `<fork-owner>/<repository>`. When `${ARGUMENTS
 - `liferay-platform-experience`
 - `liferay-search`
 - `liferay-site-management`
+- `liferay-web`
 
 When the `pr-check` run reports that the branch sits on the forward target and `${ARGUMENTS}` names no repository, use the forward target instead of asking.
 
