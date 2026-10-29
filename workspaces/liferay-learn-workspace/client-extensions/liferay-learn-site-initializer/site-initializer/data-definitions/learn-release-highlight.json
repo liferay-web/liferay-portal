@@ -1,0 +1,275 @@
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"contentType": "journal",
+	"dataDefinitionFields": [
+		{
+			"customProperties": {
+				"dataType": "string",
+				"displayStyle": "singleline",
+				"fieldNamespace": "",
+				"fieldReference": "releaseKey",
+				"placeholder": {
+					"en_US": ""
+				},
+				"tooltip": {
+					"en_US": ""
+				},
+				"visibilityExpression": ""
+			},
+			"defaultValue": {
+			},
+			"fieldType": "text",
+			"indexType": "keyword",
+			"indexable": true,
+			"label": {
+				"en_US": "Release Key"
+			},
+			"localizable": false,
+			"name": "releaseKey",
+			"nestedDataDefinitionFields": [
+			],
+			"readOnly": false,
+			"repeatable": false,
+			"required": true,
+			"showLabel": true,
+			"tip": {
+				"en_US": "The release ID, for example 7413-u86 or 7010-de-102."
+			}
+		},
+		{
+			"customProperties": {
+				"dataType": "date",
+				"fieldNamespace": "",
+				"fieldReference": "releaseDate",
+				"visibilityExpression": ""
+			},
+			"defaultValue": {
+			},
+			"fieldType": "date",
+			"indexType": "keyword",
+			"indexable": true,
+			"label": {
+				"en_US": "Release Date"
+			},
+			"localizable": true,
+			"name": "releaseDate",
+			"nestedDataDefinitionFields": [
+			],
+			"readOnly": false,
+			"repeatable": false,
+			"required": true,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			}
+		},
+		{
+			"customProperties": {
+				"dataType": "string",
+				"editorConfig": null,
+				"fieldNamespace": "",
+				"fieldReference": "keyHighlights",
+				"visibilityExpression": ""
+			},
+			"defaultValue": {
+			},
+			"fieldType": "rich_text",
+			"indexType": "text",
+			"indexable": true,
+			"label": {
+				"en_US": "Key Highlights"
+			},
+			"localizable": true,
+			"name": "keyHighlights",
+			"nestedDataDefinitionFields": [
+			],
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			}
+		},
+		{
+			"customProperties": {
+				"dataType": "string",
+				"editorConfig": null,
+				"fieldNamespace": "",
+				"fieldReference": "importantChanges",
+				"visibilityExpression": ""
+			},
+			"defaultValue": {
+			},
+			"fieldType": "rich_text",
+			"indexType": "text",
+			"indexable": true,
+			"label": {
+				"en_US": "Important Changes"
+			},
+			"localizable": true,
+			"name": "importantChanges",
+			"nestedDataDefinitionFields": [
+			],
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			}
+		},
+		{
+			"customProperties": {
+				"dataType": "string",
+				"editorConfig": null,
+				"fieldNamespace": "",
+				"fieldReference": "knownIssues",
+				"visibilityExpression": ""
+			},
+			"defaultValue": {
+			},
+			"fieldType": "rich_text",
+			"indexType": "text",
+			"indexable": true,
+			"label": {
+				"en_US": "Known Issues"
+			},
+			"localizable": true,
+			"name": "knownIssues",
+			"nestedDataDefinitionFields": [
+			],
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			}
+		},
+		{
+			"customProperties": {
+				"dataType": "string",
+				"editorConfig": null,
+				"fieldNamespace": "",
+				"fieldReference": "security",
+				"visibilityExpression": ""
+			},
+			"defaultValue": {
+			},
+			"fieldType": "rich_text",
+			"indexType": "text",
+			"indexable": true,
+			"label": {
+				"en_US": "Security"
+			},
+			"localizable": true,
+			"name": "security",
+			"nestedDataDefinitionFields": [
+			],
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			}
+		}
+	],
+	"dataDefinitionKey": "LEARN-RELEASE-HIGHLIGHT",
+	"defaultDataLayout": {
+		"dataLayoutFields": {
+		},
+		"dataLayoutPages": [
+			{
+				"dataLayoutRows": [
+					{
+						"dataLayoutColumns": [
+							{
+								"columnSize": 12,
+								"fieldNames": [
+									"releaseKey"
+								]
+							}
+						]
+					},
+					{
+						"dataLayoutColumns": [
+							{
+								"columnSize": 12,
+								"fieldNames": [
+									"releaseDate"
+								]
+							}
+						]
+					},
+					{
+						"dataLayoutColumns": [
+							{
+								"columnSize": 12,
+								"fieldNames": [
+									"keyHighlights"
+								]
+							}
+						]
+					},
+					{
+						"dataLayoutColumns": [
+							{
+								"columnSize": 12,
+								"fieldNames": [
+									"importantChanges"
+								]
+							}
+						]
+					},
+					{
+						"dataLayoutColumns": [
+							{
+								"columnSize": 12,
+								"fieldNames": [
+									"knownIssues"
+								]
+							}
+						]
+					},
+					{
+						"dataLayoutColumns": [
+							{
+								"columnSize": 12,
+								"fieldNames": [
+									"security"
+								]
+							}
+						]
+					}
+				],
+				"description": {
+					"en_US": ""
+				},
+				"title": {
+					"en_US": ""
+				}
+			}
+		],
+		"dataRules": [
+		],
+		"description": {
+			"en_US": "This structure holds the highlights of one Liferay DXP release: key highlights, important changes, known issues, and security."
+		},
+		"name": {
+			"en_US": "LEARN-RELEASE-HIGHLIGHT"
+		},
+		"paginationMode": "single-page"
+	},
+	"defaultLanguageId": "en_US",
+	"description": {
+		"en_US": "This structure holds the highlights of one Liferay DXP release: key highlights, important changes, known issues, and security."
+	},
+	"name": {
+		"en_US": "Release Highlight"
+	},
+	"storageType": "default"
+}
