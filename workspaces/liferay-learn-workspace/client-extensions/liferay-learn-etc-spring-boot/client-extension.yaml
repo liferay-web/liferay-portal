@@ -6,6 +6,8 @@ liferay-learn-etc-spring-boot-oahs:
     .serviceScheme: http
     name: Liferay Learn Etc Spring Boot OAuth Application Headless Server
     scopes:
+        -   Liferay.Headless.Admin.User.everything
+        -   Liferay.Object.Admin.REST.everything.read
         -   c_article.everything
         -   c_attachment.everything
         -   c_p2s3badge.everything.read
@@ -23,8 +25,6 @@ liferay-learn-etc-spring-boot-oahs:
         -   c_p2s3quizquestion.everything.read
         -   c_p2s3quizresult.everything
         -   c_p2s3userbadge.everything
-        -   Liferay.Headless.Admin.User.everything
-        -   Liferay.Object.Admin.REST.everything.read
     type: oAuthApplicationHeadlessServer
     userAccountScreenName: default-service-account
 liferay-learn-etc-spring-boot-oaua:
@@ -32,6 +32,7 @@ liferay-learn-etc-spring-boot-oaua:
     .serviceScheme: http
     name: Liferay Learn Etc Spring Boot OAuth Application User Agent
     scopes:
+        -   Liferay.Headless.Admin.User.everything.read
         -   c_p2s3course.everything
         -   c_p2s3lesson.everything
         -   c_p2s3module.everything
