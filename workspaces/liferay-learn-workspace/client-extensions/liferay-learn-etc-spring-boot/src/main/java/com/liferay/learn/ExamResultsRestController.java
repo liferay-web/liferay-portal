@@ -150,11 +150,9 @@ public class ExamResultsRestController extends BaseRestController {
 	}
 
 	private double _getScore(CSVRecord csvRecord) {
-		String scoreString = StringUtil.removeChar(
-			csvRecord.get(
-				7
-			).trim(),
-			'%');
+		String scoreValue = csvRecord.get(7);
+
+		String scoreString = StringUtil.removeChar(scoreValue.trim(), '%');
 
 		if (!Validator.isNumber(scoreString)) {
 			throw new IllegalArgumentException(
@@ -167,7 +165,11 @@ public class ExamResultsRestController extends BaseRestController {
 	}
 
 	private LocalDateTime _parseLocalDateTime(String value) {
-		TemporalAccessor temporalAccessor = _dateTimeFormatter.parseBest(
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
+			"[yyyy-MM-dd'T'H:mm:ss[.SSS]][yyyy-MM-dd H:mm:ss][d MMMM yyyy]",
+			Locale.ENGLISH);
+
+		TemporalAccessor temporalAccessor = dateTimeFormatter.parseBest(
 			value, LocalDateTime::from, LocalDate::from);
 
 		if (temporalAccessor instanceof LocalDate) {
@@ -194,22 +196,25 @@ public class ExamResultsRestController extends BaseRestController {
 			JSONArray jsonArray = new JSONArray();
 
 			for (CSVRecord csvRecord : csvParser) {
+				String dateString = csvRecord.get(10);
+
 				OffsetDateTime offsetDateTime = OffsetDateTime.of(
-					_parseLocalDateTime(
-						csvRecord.get(
-							10
-						).trim()),
-					ZoneOffset.UTC);
+					_parseLocalDateTime(dateString.trim()), ZoneOffset.UTC);
 
-				String emailAddress = csvRecord.get(
-					2
-				).trim();
+				String rawEmailAddress = csvRecord.get(2);
 
-				String examName = csvRecord.get(
-					6
-				).trim();
+				String emailAddress = rawEmailAddress.trim();
 
-				examName = _examNames.getOrDefault(examName, examName);
+				String rawExamName = csvRecord.get(6);
+
+				String examName = rawExamName.trim();
+
+				Map<String, String> examNames = Map.of(
+					"Building Enterprise Websites with Liferay",
+					"Building Enterprise Websites with Liferay Certification " +
+						"Exam");
+
+				examName = examNames.getOrDefault(examName, examName);
 
 				jsonArray.put(
 					new JSONObject(
@@ -328,13 +333,5 @@ public class ExamResultsRestController extends BaseRestController {
 
 	private static final Log _log = LogFactory.getLog(
 		ExamResultsRestController.class);
-
-	private static final DateTimeFormatter _dateTimeFormatter =
-		DateTimeFormatter.ofPattern(
-			"[yyyy-MM-dd'T'H:mm:ss[.SSS]][yyyy-MM-dd H:mm:ss][d MMMM yyyy]",
-			Locale.ENGLISH);
-	private static final Map<String, String> _examNames = Map.of(
-		"Building Enterprise Websites with Liferay",
-		"Building Enterprise Websites with Liferay Certification Exam");
 
 }
