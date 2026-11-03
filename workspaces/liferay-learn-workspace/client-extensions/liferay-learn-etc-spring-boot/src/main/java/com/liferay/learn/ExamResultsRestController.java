@@ -116,7 +116,6 @@ public class ExamResultsRestController extends BaseRestController {
 
 	private String _decode(byte[] bytes) {
 		CharBuffer charBuffer = CharBuffer.allocate(bytes.length);
-
 		CharsetDecoder charsetDecoder = StandardCharsets.UTF_8.newDecoder();
 
 		CoderResult coderResult = charsetDecoder.decode(

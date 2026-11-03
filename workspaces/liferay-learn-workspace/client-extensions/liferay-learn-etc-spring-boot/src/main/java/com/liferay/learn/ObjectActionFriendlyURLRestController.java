@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -194,12 +193,6 @@ public class ObjectActionFriendlyURLRestController extends BaseRestController {
 			return;
 		}
 
-		UriComponents uriComponents = UriComponentsBuilder.fromPath(
-			restPath
-		).pathSegment(
-			String.valueOf(id)
-		).build();
-
 		patch(
 			authorization,
 			new JSONObject(
@@ -212,7 +205,12 @@ public class ObjectActionFriendlyURLRestController extends BaseRestController {
 					"en_US", newPath
 				)
 			).toString(),
-			uriComponents.toUri());
+			UriComponentsBuilder.fromPath(
+				restPath
+			).pathSegment(
+				String.valueOf(id)
+			).build(
+			).toUri());
 	}
 
 	private void _propagateFriendlyURL(
