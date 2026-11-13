@@ -5,6 +5,7 @@
 
 package com.liferay.cdn.cache.tag;
 
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.Layout;
 
 import java.util.Set;
@@ -47,5 +48,15 @@ public interface CDNCacheTagBuilder {
 	 * group also purges it.
 	 */
 	public String getOverflowCacheTag(long companyId, long groupId);
+
+	/**
+	 * Returns the cache tags to purge when the model changes, or an empty set
+	 * when guests cannot see the change: drafts, unpublished versions, and
+	 * private pages. A page change purges only the page, because every page
+	 * of a master page carries the master page's cache tag, which only a
+	 * master page change purges. Page and model purges also purge the group's
+	 * overflow cache tag.
+	 */
+	public Set<String> getPurgeCacheTags(BaseModel<?> baseModel);
 
 }

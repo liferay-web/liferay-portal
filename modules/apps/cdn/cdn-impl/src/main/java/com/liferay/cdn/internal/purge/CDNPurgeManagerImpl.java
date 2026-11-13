@@ -5,6 +5,7 @@
 
 package com.liferay.cdn.internal.purge;
 
+import com.liferay.cdn.cache.tag.CDNCacheTagBuilder;
 import com.liferay.cdn.configuration.CDNConfiguration;
 import com.liferay.cdn.internal.constants.CDNConstants;
 import com.liferay.cdn.internal.messaging.CDNPurgeMessageUtil;
@@ -12,14 +13,20 @@ import com.liferay.cdn.internal.template.CDNTemplateRegistry;
 import com.liferay.cdn.internal.template.ConfiguredCDNTemplate;
 import com.liferay.cdn.purge.CDNPurgeManager;
 import com.liferay.cdn.purge.CDNPurgeRequest;
+import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.MessageBus;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.ShardedModel;
+import com.liferay.portal.kernel.model.change.tracking.CTModel;
 import com.liferay.portal.kernel.transaction.TransactionCallbackUtil;
 import com.liferay.portal.kernel.util.NamedThreadFactory;
 
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -67,6 +74,59 @@ public class CDNPurgeManagerImpl implements CDNPurgeManager {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void purge(BaseModel<?> baseModel) {
+
+		// A model removed inside a publication still carries the production
+		// collection ID, so the thread's collection must be checked as well.
+
+		if (!CTCollectionThreadLocal.isProductionMode()) {
+			return;
+		}
+
+		if (baseModel instanceof CTModel) {
+			CTModel<?> ctModel = (CTModel<?>)baseModel;
+
+			if (ctModel.getCtCollectionId() !=
+					CTConstants.CT_COLLECTION_ID_PRODUCTION) {
+
+				return;
+			}
+		}
+
+		ShardedModel shardedModel = (ShardedModel)baseModel;
+
+		long companyId = shardedModel.getCompanyId();
+
+		if (!isEnabled(companyId)) {
+			return;
+		}
+
+		try {
+			Set<String> cacheTags = _cdnCacheTagBuilder.getPurgeCacheTags(
+				baseModel);
+
+			if (cacheTags.isEmpty()) {
+				return;
+			}
+
+			purge(
+				companyId,
+				CDNPurgeRequest.builder(
+				).tags(
+					cacheTags
+				).build());
+		}
+		catch (Exception exception) {
+			_log.error(
+				StringBundler.concat(
+					"Unable to purge the CDN cache tags of ",
+					baseModel.getModelClassName(), " ",
+					baseModel.getPrimaryKeyObj()),
+				exception);
+		}
 	}
 
 	@Override
@@ -178,6 +238,9 @@ public class CDNPurgeManagerImpl implements CDNPurgeManager {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CDNPurgeManagerImpl.class);
+
+	@Reference
+	private CDNCacheTagBuilder _cdnCacheTagBuilder;
 
 	private CDNPurgeCoalescer _cdnPurgeCoalescer;
 	private CDNTemplateRegistry _cdnTemplateRegistry;

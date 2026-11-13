@@ -5,6 +5,8 @@
 
 package com.liferay.cdn.purge;
 
+import com.liferay.portal.kernel.model.BaseModel;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -16,6 +18,15 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface CDNPurgeManager {
 
 	public boolean isEnabled(long companyId);
+
+	/**
+	 * Purges the cache tags of a model changed in production, as {@link
+	 * com.liferay.cdn.cache.tag.CDNCacheTagBuilder#getPurgeCacheTags(
+	 * BaseModel)} returns them. A change made inside a publication, including
+	 * a removal, is skipped, because guests only see it once the publication
+	 * is published.
+	 */
+	public void purge(BaseModel<?> baseModel);
 
 	/**
 	 * Requests a purge without blocking the caller. The purge is sent after
