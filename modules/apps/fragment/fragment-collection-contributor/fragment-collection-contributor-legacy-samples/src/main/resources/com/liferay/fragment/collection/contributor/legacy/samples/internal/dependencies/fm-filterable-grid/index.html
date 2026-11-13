@@ -1,0 +1,75 @@
+[#assign categories = ["Analytics", "Commerce", "Content", "Integration", "Search", "Security"] /]
+[#assign levels = ["Beginner", "Intermediate", "Advanced"] /]
+[#assign adjectives = ["Composable", "Headless", "Personalized", "Scalable", "Secure", "Unified", "Agentic", "Global", "Modular", "Real-Time"] /]
+[#assign nouns = ["Storefronts", "Portals", "Dashboards", "Workflows", "Catalogs", "Sites", "Journeys", "Integrations", "Reports", "Experiences", "Search"] /]
+
+[#assign items = [] /]
+
+[#if configuration.itemsJson?has_content]
+	[#attempt]
+		[#assign items = configuration.itemsJson?eval_json /]
+	[#recover]
+		[#assign items = [] /]
+	[/#attempt]
+[/#if]
+
+[#if !items?has_content]
+	[#list 1..60 as i]
+		[#assign items = items + [{
+			"category": categories[i % categories?size],
+			"date": "2026-" + ((i % 12) + 1)?string("00") + "-" + ((i * 7 % 28) + 1)?string("00"),
+			"level": levels[i % levels?size],
+			"popularity": (i * 37) % 100,
+			"title": adjectives[i % adjectives?size] + " " + nouns[(i * 3) % nouns?size] + " " + i,
+			"url": "#"
+		}] /]
+	[/#list]
+[/#if]
+
+<section class="fm-filterable-grid" style="--fm-filterable-grid-columns: ${configuration.columns};" data-page-size="${configuration.pageSize}">
+	<div class="fm-filterable-grid__controls">
+		<label class="fm-filterable-grid__search">
+			<span class="fm-filterable-grid__visually-hidden">Search</span>
+			<input class="fm-filterable-grid__input" name="q" placeholder="Search" type="search" />
+		</label>
+
+		<label class="fm-filterable-grid__sort">
+			<span class="fm-filterable-grid__visually-hidden">Sort by</span>
+			<select class="fm-filterable-grid__select" name="sort">
+				<option value="relevance">Relevance</option>
+				<option value="title">Title (A-Z)</option>
+				<option value="date">Newest</option>
+				<option value="popularity">Most popular</option>
+			</select>
+		</label>
+	</div>
+
+	<div aria-label="Filter by category" class="fm-filterable-grid__facets" role="group"></div>
+
+	<p aria-live="polite" class="fm-filterable-grid__status" role="status">${items?size} results</p>
+
+	<ul class="fm-filterable-grid__list">
+		[#list items as item]
+			<li
+				class="fm-filterable-grid__item"
+				data-category="${(item.category!"")?html}"
+				data-date="${(item.date!"")?html}"
+				data-level="${(item.level!"")?html}"
+				data-popularity="${(item.popularity!0)?c}"
+				data-title="${(item.title!"")?html}"
+			>
+				<a class="fm-filterable-grid__card" href="${(item.url!"#")?html}">
+					<span class="fm-filterable-grid__category">${(item.category!"")?html}</span>
+					<h3 class="fm-filterable-grid__title">${(item.title!"")?html}</h3>
+					<span class="fm-filterable-grid__meta">${(item.level!"")?html} &middot; <time datetime="${(item.date!"")?html}">${(item.date!"")?html}</time></span>
+				</a>
+			</li>
+		[/#list]
+	</ul>
+
+	<nav aria-label="Pagination" class="fm-filterable-grid__pager" hidden>
+		<button class="fm-filterable-grid__page-button" data-direction="-1" type="button">Previous</button>
+		<span class="fm-filterable-grid__page-label"></span>
+		<button class="fm-filterable-grid__page-button" data-direction="1" type="button">Next</button>
+	</nav>
+</section>

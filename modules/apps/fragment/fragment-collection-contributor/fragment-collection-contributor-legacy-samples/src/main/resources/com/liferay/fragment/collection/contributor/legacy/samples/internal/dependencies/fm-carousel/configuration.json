@@ -1,0 +1,44 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"dataType": "int",
+					"defaultValue": "5",
+					"label": "number-of-slides",
+					"name": "numberOfSlides",
+					"type": "text",
+					"typeOptions": {
+						"validation": {"max": 12, "min": 1, "type": "number"}
+					}
+				},
+				{
+					"defaultValue": true,
+					"label": "autoplay",
+					"name": "autoplay",
+					"type": "checkbox"
+				},
+				{
+					"dataType": "int",
+					"defaultValue": "6",
+					"label": "autoplay-interval-seconds",
+					"name": "interval",
+					"type": "text"
+				},
+				{
+					"defaultValue": "100%",
+					"label": "slide-width",
+					"name": "slideWidth",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Full", "value": "100%"},
+							{"label": "Peek", "value": "85%"},
+							{"label": "Half", "value": "50%"}
+						]
+					}
+				}
+			]
+		}
+	]
+}

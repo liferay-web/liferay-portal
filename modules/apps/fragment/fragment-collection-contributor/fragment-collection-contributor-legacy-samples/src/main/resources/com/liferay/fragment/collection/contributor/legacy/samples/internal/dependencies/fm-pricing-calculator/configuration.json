@@ -1,0 +1,70 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"defaultValue": "USD",
+					"label": "currency",
+					"name": "currency",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "USD", "value": "USD"},
+							{"label": "EUR", "value": "EUR"},
+							{"label": "GBP", "value": "GBP"},
+							{"label": "JPY", "value": "JPY"}
+						]
+					}
+				},
+				{
+					"dataType": "double",
+					"defaultValue": "12",
+					"label": "starter-price-per-seat",
+					"name": "starterPrice",
+					"type": "text"
+				},
+				{
+					"dataType": "double",
+					"defaultValue": "29",
+					"label": "business-price-per-seat",
+					"name": "businessPrice",
+					"type": "text"
+				},
+				{
+					"dataType": "double",
+					"defaultValue": "59",
+					"label": "enterprise-price-per-seat",
+					"name": "enterprisePrice",
+					"type": "text"
+				},
+				{
+					"dataType": "int",
+					"defaultValue": "500",
+					"label": "max-seats",
+					"name": "maxSeats",
+					"type": "text"
+				},
+				{
+					"dataType": "int",
+					"defaultValue": "20",
+					"label": "annual-discount-percent",
+					"name": "annualDiscount",
+					"type": "text"
+				},
+				{
+					"defaultValue": "var(--brand-color-1, #0b5fff)",
+					"label": "accent-color",
+					"name": "accent",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Brand 1", "value": "var(--brand-color-1, #0b5fff)"},
+							{"label": "Brand 2", "value": "var(--brand-color-2, #7414ff)"},
+							{"label": "Success", "value": "var(--success, #287d3c)"}
+						]
+					}
+				}
+			]
+		}
+	]
+}

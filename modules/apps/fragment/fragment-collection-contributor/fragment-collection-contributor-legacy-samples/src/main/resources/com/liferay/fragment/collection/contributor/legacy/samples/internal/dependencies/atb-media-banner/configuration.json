@@ -1,0 +1,50 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"defaultValue": "right",
+					"label": "media-position",
+					"name": "mediaPosition",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Left", "value": "left"},
+							{"label": "Right", "value": "right"}
+						]
+					}
+				},
+				{
+					"defaultValue": "https://www.liferay.com/documents/10182/537374358/LRDC-Hero-Animation_2x+transparency.webm/7da42549-d282-0f92-33a7-a3c4c2f10758?t=1789657957400",
+					"label": "video-url-webm",
+					"name": "videoUrl",
+					"type": "text"
+				},
+				{
+					"defaultValue": "https://www.liferay.com/documents/10182/537374358/safari_LRDC-Hero-Animation_2x+transparency.mov",
+					"label": "video-url-hevc",
+					"name": "videoUrlHevc",
+					"type": "text"
+				},
+				{
+					"defaultValue": "",
+					"label": "poster-image-url",
+					"name": "posterImageUrl",
+					"type": "text"
+				},
+				{
+					"defaultValue": "Liferay DXP",
+					"label": "label",
+					"name": "label",
+					"type": "text"
+				},
+				{
+					"defaultValue": true,
+					"label": "show-secondary-cta",
+					"name": "showSecondaryCta",
+					"type": "checkbox"
+				}
+			]
+		}
+	]
+}

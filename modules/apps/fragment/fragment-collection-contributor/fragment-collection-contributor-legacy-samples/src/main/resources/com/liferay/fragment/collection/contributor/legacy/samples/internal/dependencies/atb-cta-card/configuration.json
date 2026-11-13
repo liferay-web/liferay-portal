@@ -1,0 +1,71 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"defaultValue": "column",
+					"label": "layout",
+					"name": "layout",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Column", "value": "column"},
+							{"label": "Row", "value": "row"}
+						]
+					}
+				},
+				{
+					"defaultValue": "left",
+					"label": "align",
+					"name": "align",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Left", "value": "left"},
+							{"label": "Center", "value": "center"},
+							{"label": "Right", "value": "right"}
+						]
+					}
+				},
+				{
+					"defaultValue": "none",
+					"label": "theme",
+					"name": "theme",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "None", "value": "none"},
+							{"label": "Gray", "value": "gray"},
+							{"label": "Outline", "value": "outline"}
+						]
+					}
+				},
+				{
+					"defaultValue": "large",
+					"label": "title-size",
+					"name": "titleSize",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Small", "value": "small"},
+							{"label": "Medium", "value": "medium"},
+							{"label": "Large", "value": "large"}
+						]
+					}
+				},
+				{
+					"defaultValue": "",
+					"label": "label",
+					"name": "label",
+					"type": "text"
+				},
+				{
+					"defaultValue": true,
+					"label": "show-cta-link",
+					"name": "showLink",
+					"type": "checkbox"
+				}
+			]
+		}
+	]
+}

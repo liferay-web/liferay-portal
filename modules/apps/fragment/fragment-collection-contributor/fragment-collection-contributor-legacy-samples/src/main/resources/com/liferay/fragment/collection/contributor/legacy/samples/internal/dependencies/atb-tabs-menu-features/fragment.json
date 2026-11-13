@@ -1,0 +1,11 @@
+{
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"cssPath": "index.css",
+	"htmlPath": "index.html",
+	"icon": "tabs",
+	"jsPath": "index.js",
+	"name": "ATB Tabs Menu Features",
+	"type": "component",
+	"fragmentEntryKey": "atb-tabs-menu-features"
+}

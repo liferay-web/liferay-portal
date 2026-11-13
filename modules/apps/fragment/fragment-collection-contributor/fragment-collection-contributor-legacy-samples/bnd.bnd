@@ -1,0 +1,5 @@
+Bundle-Name: Liferay Fragment Collection Contributor Legacy Samples
+Bundle-SymbolicName: com.liferay.fragment.collection.contributor.legacy.samples
+Bundle-Version: 1.0.0
+Web-ContextPath: /fragment-collection-contributor-legacy.samples
+-dsannotations-options: inherit

@@ -1,0 +1,54 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"dataType": "double",
+					"defaultValue": "1200",
+					"label": "value",
+					"name": "value",
+					"type": "text"
+				},
+				{
+					"defaultValue": "",
+					"label": "prefix",
+					"name": "prefix",
+					"type": "text"
+				},
+				{
+					"defaultValue": "+",
+					"label": "suffix",
+					"name": "suffix",
+					"type": "text"
+				},
+				{
+					"dataType": "int",
+					"defaultValue": "0",
+					"label": "decimals",
+					"name": "decimals",
+					"type": "text"
+				},
+				{
+					"dataType": "int",
+					"defaultValue": "1600",
+					"label": "duration-ms",
+					"name": "duration",
+					"type": "text"
+				},
+				{
+					"defaultValue": "var(--brand-color-1, #0b5fff)",
+					"label": "accent-color",
+					"name": "accent",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Brand 1", "value": "var(--brand-color-1, #0b5fff)"},
+							{"label": "Brand 2", "value": "var(--brand-color-2, #7414ff)"},
+							{"label": "Inherit", "value": "currentColor"}
+						]
+					}
+				}
+			]
+		}
+	]
+}

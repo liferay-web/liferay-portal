@@ -1,0 +1,11 @@
+{
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"cssPath": "index.css",
+	"htmlPath": "index.html",
+	"icon": "slides",
+	"jsPath": "index.js",
+	"name": "FM Carousel",
+	"type": "component",
+	"fragmentEntryKey": "fm-carousel"
+}

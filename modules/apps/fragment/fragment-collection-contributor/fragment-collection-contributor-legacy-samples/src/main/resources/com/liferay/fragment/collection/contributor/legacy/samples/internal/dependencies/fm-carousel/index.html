@@ -1,0 +1,43 @@
+[#assign slideCount = configuration.numberOfSlides?number /]
+[#assign hues = [222, 262, 192, 302, 162, 242] /]
+
+<section
+	aria-label="Carousel"
+	aria-roledescription="carousel"
+	class="fm-carousel"
+	data-autoplay="${configuration.autoplay?c}"
+	data-interval="${configuration.interval}"
+	style="--fm-carousel-slide-width: ${configuration.slideWidth};"
+>
+	<div class="fm-carousel__viewport" tabindex="0">
+		[#list 1..slideCount as i]
+			<div
+				aria-label="${i} of ${slideCount}"
+				aria-roledescription="slide"
+				class="fm-carousel__slide"
+				id="fm-carousel-${fragmentEntryLinkNamespace}-slide-${i}"
+				role="group"
+				style="--fm-carousel-slide-hue: ${hues[(i - 1) % hues?size]};"
+			>
+				<div class="fm-carousel__slide-body">
+					<h3 class="fm-carousel__slide-title" data-lfr-editable-id="slide-title-${i}" data-lfr-editable-type="text">Slide ${i}</h3>
+					<div class="fm-carousel__slide-text" data-lfr-editable-id="slide-text-${i}" data-lfr-editable-type="rich-text"><p>Composable experiences that scale with your business.</p></div>
+				</div>
+			</div>
+		[/#list]
+	</div>
+
+	<div class="fm-carousel__controls">
+		<button aria-label="Previous slide" class="fm-carousel__arrow" data-direction="-1" type="button">&#8592;</button>
+
+		<div class="fm-carousel__dots">
+			[#list 1..slideCount as i]
+				<button aria-controls="fm-carousel-${fragmentEntryLinkNamespace}-slide-${i}" aria-label="Go to slide ${i}" class="fm-carousel__dot" data-index="${i - 1}" type="button"></button>
+			[/#list]
+		</div>
+
+		<button aria-label="Next slide" class="fm-carousel__arrow" data-direction="1" type="button">&#8594;</button>
+
+		<button aria-label="Pause autoplay" class="fm-carousel__toggle" hidden type="button"></button>
+	</div>
+</section>
