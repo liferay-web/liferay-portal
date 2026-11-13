@@ -1,0 +1,27 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/atb-tabs-menu-features.5c3aca88.css",
+				"layer": "fragments.atb-tabs-menu-features"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-lifecycle.b5ec4c68.js"
+			],
+			"hydrate": "visible",
+			"module": "dist/atb-tabs-menu-features.9666a4d9.js"
+		},
+		"preconnect": [],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "atb-tabs-menu-features",
+	"htmlPath": "index.html",
+	"icon": "tabs",
+	"name": "ATB Tabs Menu Features",
+	"type": "component"
+}

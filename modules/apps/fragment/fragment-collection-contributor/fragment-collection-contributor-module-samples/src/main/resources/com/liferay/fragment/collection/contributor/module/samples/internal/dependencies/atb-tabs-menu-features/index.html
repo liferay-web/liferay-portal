@@ -1,0 +1,37 @@
+[#assign tabCount = configuration.numberOfTabs?number /]
+
+<div class="atb-tabs-menu-features atb-tabs-menu-features--${configuration.layout}" id="atb-tabs-menu-features-${fragmentEntryLinkNamespace}">
+	<nav class="atb-tabs-menu-features__nav">
+		<ul class="atb-tabs-menu-features__list" role="tablist">
+			[#list 1..tabCount as i]
+				<li class="atb-tabs-menu-features__item" role="presentation">
+					<button
+						aria-controls="tabPanel${i}-${fragmentEntryLinkNamespace}"
+						aria-selected="${(i == 1)?c}"
+						class="atb-tabs-menu-features__tab[#if i == 1] is-active[/#if]"
+						id="tab${i}-${fragmentEntryLinkNamespace}"
+						role="tab"
+						tabindex="${(i == 1)?then('0', '-1')}"
+						type="button"
+					>
+						<span data-lfr-editable-id="title-${i}" data-lfr-editable-type="text">Tab ${i}</span>
+					</button>
+				</li>
+			[/#list]
+		</ul>
+	</nav>
+
+	<div class="atb-tabs-menu-features__panels">
+		[#list 1..tabCount as i]
+			<div
+				aria-labelledby="tab${i}-${fragmentEntryLinkNamespace}"
+				class="atb-tabs-menu-features__panel[#if i != 1] is-hidden[/#if]"
+				id="tabPanel${i}-${fragmentEntryLinkNamespace}"
+				role="tabpanel"
+				tabindex="0"
+			>
+				<lfr-drop-zone data-lfr-drop-zone-id="panel-${i}"></lfr-drop-zone>
+			</div>
+		[/#list]
+	</div>
+</div>

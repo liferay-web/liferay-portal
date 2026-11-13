@@ -1,0 +1,27 @@
+[#assign alignments = {"center": "center", "left": "flex-start", "right": "flex-end"} /]
+[#assign titleSizes = {"large": "1.75rem", "medium": "1.5rem", "small": "1.25rem"} /]
+
+<div
+	class="atb-cta-card atb-cta-card--${configuration.layout} atb-cta-card--theme-${configuration.theme}"
+	style="--atb-cta-card-align: ${alignments[configuration.align]!"flex-start"}; --atb-cta-card-text-align: ${configuration.align}; --atb-cta-card-title-size: ${titleSizes[configuration.titleSize]!"1.75rem"};"
+>
+	[#if configuration.label?has_content]
+		<div class="atb-cta-card__header">
+			<span class="atb-cta-card__label">${configuration.label?html}</span>
+		</div>
+	[/#if]
+
+	<div class="atb-cta-card__content">
+		<h4 class="atb-cta-card__title" data-lfr-editable-id="atb-cta-card-title" data-lfr-editable-type="text">Financial Services</h4>
+
+		<div class="atb-cta-card__paragraphs" data-lfr-editable-id="atb-cta-card-paragraphs-wrapper" data-lfr-editable-type="rich-text">
+			<p>Unify client and advisor data, personalize every financial journey, strengthen security, and simplify compliance to build lasting trust and a competitive edge.</p>
+		</div>
+
+		[#if configuration.showLink]
+			<a class="atb-cta-card__link" data-lfr-editable-id="atb-cta-card-link" data-lfr-editable-type="link" href="https://www.liferay.com/industries/financial-services">
+				Financial Services Solutions
+			</a>
+		[/#if]
+	</div>
+</div>

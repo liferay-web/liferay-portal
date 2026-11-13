@@ -1,0 +1,19 @@
+[#assign videoId = configuration.videoId?trim?replace("[^A-Za-z0-9_-]", "", "r") /]
+
+<div class="fm-video-lightbox" data-video-id="${videoId}" style="--fm-video-lightbox-aspect-ratio: ${configuration.aspectRatio};">
+	<button aria-haspopup="dialog" class="fm-video-lightbox__trigger" type="button">
+		<img alt="" class="fm-video-lightbox__thumbnail" decoding="async" height="360" loading="lazy" src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" width="480" />
+
+		<span aria-hidden="true" class="fm-video-lightbox__play"></span>
+
+		<span class="fm-video-lightbox__caption" data-lfr-editable-id="caption" data-lfr-editable-type="text">Watch the video</span>
+	</button>
+
+	<dialog aria-label="Video" class="fm-video-lightbox__dialog">
+		<div class="fm-video-lightbox__frame"></div>
+
+		<form class="fm-video-lightbox__close-form" method="dialog">
+			<button aria-label="Close" class="fm-video-lightbox__close" type="submit">&times;</button>
+		</form>
+	</dialog>
+</div>

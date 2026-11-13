@@ -1,0 +1,1 @@
+var i=new Map;function o(){return document.documentElement.lang||navigator.language||"en-US"}function u(e,t={},r=o()){let m=r+JSON.stringify(t),n=i.get(m);return n||(n=new Intl.NumberFormat(r,t),i.set(m,n)),n.format(e)}function s(e,t,r=0){return u(e,{currency:t,maximumFractionDigits:r,minimumFractionDigits:0,style:"currency"})}export{u as a,s as b};

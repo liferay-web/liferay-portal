@@ -1,0 +1,44 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"defaultValue": "",
+					"description": "JSON array of {title, category, level, date, popularity, url}. Leave empty for the sample dataset.",
+					"label": "items-json",
+					"name": "itemsJson",
+					"type": "text"
+				},
+				{
+					"dataType": "int",
+					"defaultValue": "12",
+					"label": "page-size",
+					"name": "pageSize",
+					"type": "text",
+					"typeOptions": {
+						"validation": {"max": 60, "min": 3, "type": "number"}
+					}
+				},
+				{
+					"defaultValue": "3",
+					"label": "columns",
+					"name": "columns",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "2", "value": "2"},
+							{"label": "3", "value": "3"},
+							{"label": "4", "value": "4"}
+						]
+					}
+				},
+				{
+					"defaultValue": true,
+					"label": "sync-state-with-url",
+					"name": "syncUrl",
+					"type": "checkbox"
+				}
+			]
+		}
+	]
+}

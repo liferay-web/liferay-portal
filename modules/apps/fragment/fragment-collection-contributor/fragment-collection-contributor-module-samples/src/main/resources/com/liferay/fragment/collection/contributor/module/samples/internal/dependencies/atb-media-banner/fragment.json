@@ -1,0 +1,35 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/atb-media-banner.a67d68cd.css",
+				"layer": "fragments.atb-media-banner"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-lifecycle.b5ec4c68.js",
+				"dist/chunk-observe-once.b7b945cf.js"
+			],
+			"hydrate": "eager",
+			"module": "dist/atb-media-banner.88589b21.js"
+		},
+		"preconnect": [],
+		"preload": [
+			{
+				"as": "image",
+				"fetchpriority": "high",
+				"href": "dist/poster.ed563739.avif",
+				"when": "aboveTheFold"
+			}
+		],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "atb-media-banner",
+	"htmlPath": "index.html",
+	"icon": "picture",
+	"name": "ATB Media Banner",
+	"type": "component"
+}

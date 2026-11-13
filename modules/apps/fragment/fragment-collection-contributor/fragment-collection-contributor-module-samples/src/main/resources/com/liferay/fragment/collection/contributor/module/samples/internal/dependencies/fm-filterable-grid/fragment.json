@@ -1,0 +1,28 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/fm-filterable-grid.fd4c1e78.css",
+				"layer": "fragments.fm-filterable-grid"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-format-number.a170eca1.js",
+				"dist/chunk-lifecycle.b5ec4c68.js"
+			],
+			"hydrate": "visible",
+			"module": "dist/fm-filterable-grid.de58c2c5.js"
+		},
+		"preconnect": [],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "fm-filterable-grid",
+	"htmlPath": "index.html",
+	"icon": "filter",
+	"name": "FM Filterable Grid",
+	"type": "component"
+}

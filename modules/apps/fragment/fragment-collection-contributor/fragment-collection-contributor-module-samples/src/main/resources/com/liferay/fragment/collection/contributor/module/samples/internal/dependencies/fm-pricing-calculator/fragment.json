@@ -1,0 +1,28 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/fm-pricing-calculator.b16cfd87.css",
+				"layer": "fragments.fm-pricing-calculator"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-format-number.a170eca1.js",
+				"dist/chunk-lifecycle.b5ec4c68.js"
+			],
+			"hydrate": "visible",
+			"module": "dist/fm-pricing-calculator.7f57a6f2.js"
+		},
+		"preconnect": [],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "fm-pricing-calculator",
+	"htmlPath": "index.html",
+	"icon": "calculator",
+	"name": "FM Pricing Calculator",
+	"type": "component"
+}

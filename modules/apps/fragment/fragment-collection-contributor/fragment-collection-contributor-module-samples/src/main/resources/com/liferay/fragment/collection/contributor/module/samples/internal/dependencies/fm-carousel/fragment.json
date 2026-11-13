@@ -1,0 +1,28 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/fm-carousel.c02cdfff.css",
+				"layer": "fragments.fm-carousel"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-lifecycle.b5ec4c68.js",
+				"dist/chunk-observe-once.b7b945cf.js"
+			],
+			"hydrate": "idle",
+			"module": "dist/fm-carousel.a8b07118.js"
+		},
+		"preconnect": [],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "fm-carousel",
+	"htmlPath": "index.html",
+	"icon": "slides",
+	"name": "FM Carousel",
+	"type": "component"
+}

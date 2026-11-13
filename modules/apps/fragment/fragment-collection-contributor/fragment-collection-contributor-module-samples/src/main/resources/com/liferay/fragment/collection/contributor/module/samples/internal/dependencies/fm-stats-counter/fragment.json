@@ -1,0 +1,29 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/fm-stats-counter.b05e6854.css",
+				"layer": "fragments.fm-stats-counter"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-format-number.a170eca1.js",
+				"dist/chunk-lifecycle.b5ec4c68.js",
+				"dist/chunk-observe-once.b7b945cf.js"
+			],
+			"hydrate": "visible",
+			"module": "dist/fm-stats-counter.48dfb246.js"
+		},
+		"preconnect": [],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "fm-stats-counter",
+	"htmlPath": "index.html",
+	"icon": "analytics",
+	"name": "FM Stats Counter",
+	"type": "component"
+}

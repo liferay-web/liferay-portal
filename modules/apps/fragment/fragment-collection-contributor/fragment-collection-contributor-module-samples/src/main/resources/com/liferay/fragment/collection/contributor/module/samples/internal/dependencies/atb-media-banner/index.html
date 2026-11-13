@@ -1,0 +1,36 @@
+<div
+	class="atb-media-banner atb-media-banner--media-${configuration.mediaPosition}[#if configuration.posterImageUrl?has_content] atb-media-banner--custom-poster[/#if]"
+	id="atb-media-banner-${fragmentEntryLinkNamespace}"
+	[#if configuration.posterImageUrl?has_content]style="--atb-media-banner-poster: url('${configuration.posterImageUrl?html}');"[/#if]
+>
+	<div class="atb-media-banner__media">
+		<video aria-hidden="true" class="atb-media-banner__video" disablepictureinpicture loop muted playsinline preload="none">
+			[#if configuration.videoUrlHevc?has_content]
+				<source data-src="${configuration.videoUrlHevc?html}" type="video/quicktime; codecs=&quot;hvc1&quot;">
+			[/#if]
+			[#if configuration.videoUrl?has_content]
+				<source data-src="${configuration.videoUrl?html}" type="video/webm">
+			[/#if]
+		</video>
+	</div>
+
+	<div class="atb-media-banner__content">
+		[#if configuration.label?has_content]
+			<span class="atb-media-banner__label">${configuration.label?html}</span>
+		[/#if]
+
+		<h1 class="atb-media-banner__title" data-lfr-editable-id="atb-media-banner-title" data-lfr-editable-type="rich-text">Launch Digital Experiences That <mark>Convert, Scale and Grow</mark></h1>
+
+		<div class="atb-media-banner__paragraph" data-lfr-editable-id="atb-media-banner-paragraph" data-lfr-editable-type="rich-text">
+			<p>Liferay DXP lets you automate content production, localize for global markets, build portals, launch unified commerce storefronts, and dominate SEO/AEO, all on a <strong>single, agentic platform and Headless CMS</strong>.</p>
+		</div>
+
+		<div class="atb-media-banner__ctas">
+			<a class="atb-media-banner__cta atb-media-banner__cta--primary" data-lfr-editable-id="atb-media-banner-cta-primary" data-lfr-editable-type="link" href="https://www.liferay.com/request-a-demo">Request a Demo</a>
+
+			[#if configuration.showSecondaryCta]
+				<a class="atb-media-banner__cta atb-media-banner__cta--secondary" data-lfr-editable-id="atb-media-banner-cta-secondary" data-lfr-editable-type="link" href="https://www.liferay.com/platform">Explore the Platform</a>
+			[/#if]
+		</div>
+	</div>
+</div>

@@ -1,0 +1,20 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/atb-cta-card.19d1059f.css",
+				"layer": "fragments.atb-cta-card"
+			}
+		],
+		"preconnect": [],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "atb-cta-card",
+	"htmlPath": "index.html",
+	"icon": "cards2",
+	"name": "ATB CTA Card",
+	"type": "component"
+}

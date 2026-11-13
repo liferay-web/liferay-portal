@@ -1,0 +1,35 @@
+{
+	"assets": {
+		"css": [
+			{
+				"href": "dist/fm-video-lightbox.abcec25d.css",
+				"layer": "fragments.fm-video-lightbox"
+			}
+		],
+		"js": {
+			"deps": [
+				"dist/chunk-lifecycle.b5ec4c68.js"
+			],
+			"hydrate": "interaction",
+			"module": "dist/fm-video-lightbox.9f1ceba0.js"
+		},
+		"preconnect": [
+			{
+				"crossorigin": true,
+				"origin": "https://www.youtube-nocookie.com"
+			},
+			{
+				"origin": "https://i.ytimg.com"
+			}
+		],
+		"preload": [],
+		"version": 1
+	},
+	"cacheable": true,
+	"configurationPath": "configuration.json",
+	"fragmentEntryKey": "fm-video-lightbox",
+	"htmlPath": "index.html",
+	"icon": "video",
+	"name": "FM Video Lightbox",
+	"type": "component"
+}

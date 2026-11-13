@@ -1,0 +1,36 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				{
+					"dataType": "int",
+					"defaultValue": "2",
+					"label": "number-of-tabs",
+					"name": "numberOfTabs",
+					"type": "text",
+					"typeOptions": {
+						"validation": {"max": 8, "min": 1, "type": "number"}
+					}
+				},
+				{
+					"defaultValue": "centered",
+					"label": "layout",
+					"name": "layout",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"label": "Centered", "value": "centered"},
+							{"label": "Full Width", "value": "full"}
+						]
+					}
+				},
+				{
+					"defaultValue": true,
+					"label": "persist-selected-tab",
+					"name": "persistSelectedTab",
+					"type": "checkbox"
+				}
+			]
+		}
+	]
+}
