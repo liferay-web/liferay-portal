@@ -167,7 +167,11 @@ public class FrontendJSAudiencesWebServlet extends HttpServlet {
 	private User _getSessionUser(HttpServletRequest httpServletRequest)
 		throws PortalException {
 
-		HttpSession httpSession = httpServletRequest.getSession();
+		HttpSession httpSession = httpServletRequest.getSession(false);
+
+		if (httpSession == null) {
+			return null;
+		}
 
 		if (PortalSessionThreadLocal.getHttpSession() == null) {
 			PortalSessionThreadLocal.setHttpSession(httpSession);

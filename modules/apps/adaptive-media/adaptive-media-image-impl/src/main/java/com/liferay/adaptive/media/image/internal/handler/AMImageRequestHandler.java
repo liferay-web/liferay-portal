@@ -298,9 +298,11 @@ public class AMImageRequestHandler
 	private User _getUser(HttpServletRequest httpServletRequest)
 		throws Exception {
 
-		HttpSession httpSession = httpServletRequest.getSession();
+		HttpSession httpSession = httpServletRequest.getSession(false);
 
-		if (PortalSessionThreadLocal.getHttpSession() == null) {
+		if ((httpSession != null) &&
+			(PortalSessionThreadLocal.getHttpSession() == null)) {
+
 			PortalSessionThreadLocal.setHttpSession(httpSession);
 		}
 
@@ -310,13 +312,16 @@ public class AMImageRequestHandler
 			return user;
 		}
 
-		String userIdString = (String)httpSession.getAttribute("j_username");
-		String password = (String)httpSession.getAttribute("j_password");
+		if (httpSession != null) {
+			String userIdString = (String)httpSession.getAttribute(
+				"j_username");
+			String password = (String)httpSession.getAttribute("j_password");
 
-		if ((userIdString != null) && (password != null)) {
-			long userId = GetterUtil.getLong(userIdString);
+			if ((userIdString != null) && (password != null)) {
+				long userId = GetterUtil.getLong(userIdString);
 
-			return _userLocalService.getUser(userId);
+				return _userLocalService.getUser(userId);
+			}
 		}
 
 		Company company = _companyLocalService.getCompany(

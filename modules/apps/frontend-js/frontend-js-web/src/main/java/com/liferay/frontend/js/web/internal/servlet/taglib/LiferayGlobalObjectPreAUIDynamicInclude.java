@@ -670,12 +670,15 @@ public class LiferayGlobalObjectPreAUIDynamicInclude
 		_renderMethod(
 			"getScopeGroupIdOrLiveGroupId", sb, liveGroup.getGroupId());
 
-		HttpSession httpSession = httpServletRequest.getSession(true);
+		String sessionId = StringPool.BLANK;
 
-		_renderMethod(
-			"getSessionId", sb,
-			PropsValues.SESSION_ENABLE_URL_WITH_SESSION_ID ?
-				httpSession.getId() : StringPool.BLANK);
+		if (PropsValues.SESSION_ENABLE_URL_WITH_SESSION_ID) {
+			HttpSession httpSession = httpServletRequest.getSession();
+
+			sessionId = httpSession.getId();
+		}
+
+		_renderMethod("getSessionId", sb, sessionId);
 
 		_renderMethod(
 			"getSiteAdminURL", sb,

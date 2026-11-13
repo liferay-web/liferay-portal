@@ -14,6 +14,7 @@ import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.petra.io.StreamUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -36,10 +37,20 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.InputStream;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -51,6 +62,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 
 /**
  * @author Manuel Rives
@@ -146,6 +158,104 @@ public class AMImageRequestHandlerTest {
 			amRequestHandler.handleRequest(mockHttpServletRequest));
 	}
 
+	@Test
+	public void testHandleRequestWithHttpSession() throws Exception {
+		FileEntry fileEntry = _addFileEntry();
+
+		_removeResourcePermission(
+			ActionKeys.DOWNLOAD, fileEntry.getFileEntryId());
+
+		MockHttpServletRequest mockHttpServletRequest =
+			_createMockHttpServletRequest(fileEntry);
+
+		Assert.assertNull(
+			_amRequestHandler.handleRequest(mockHttpServletRequest));
+
+		mockHttpServletRequest = _createMockHttpServletRequest(fileEntry);
+
+		MockHttpSession mockHttpSession = new MockHttpSession();
+
+		mockHttpSession.setAttribute(
+			WebKeys.USER_ID, TestPropsValues.getUserId());
+
+		mockHttpServletRequest.setSession(mockHttpSession);
+
+		Assert.assertNotNull(
+			_amRequestHandler.handleRequest(mockHttpServletRequest));
+		Assert.assertSame(
+			mockHttpSession, mockHttpServletRequest.getSession(false));
+	}
+
+	@Test
+	public void testHandleRequestWithoutHttpSession() throws Exception {
+		FileEntry fileEntry = _addFileEntry();
+
+		MockHttpServletRequest mockHttpServletRequest =
+			_createMockHttpServletRequest(fileEntry);
+
+		Assert.assertNotNull(
+			_amRequestHandler.handleRequest(mockHttpServletRequest));
+		Assert.assertNull(mockHttpServletRequest.getSession(false));
+
+		URL url = new URL(
+			StringBundler.concat(
+				"http://localhost:", PortalUtil.getPortalServerPort(false),
+				"/o/adaptive-media/image/", fileEntry.getFileEntryId(), "/",
+				_UUID, "/", fileEntry.getFileName()));
+
+		HttpURLConnection httpURLConnection =
+			(HttpURLConnection)url.openConnection();
+
+		try (InputStream inputStream = httpURLConnection.getInputStream()) {
+			StreamUtil.toByteArray(inputStream);
+
+			Assert.assertEquals(
+				HttpServletResponse.SC_OK, httpURLConnection.getResponseCode());
+
+			Map<String, List<String>> headerFields =
+				httpURLConnection.getHeaderFields();
+
+			for (String setCookie :
+					headerFields.getOrDefault(
+						"Set-Cookie", Collections.emptyList())) {
+
+				Assert.assertFalse(
+					setCookie, setCookie.startsWith("JSESSIONID="));
+			}
+		}
+		finally {
+			httpURLConnection.disconnect();
+		}
+	}
+
+	private FileEntry _addFileEntry() throws Exception {
+		return _dlAppLocalService.addFileEntry(
+			null, TestPropsValues.getUserId(), _group.getGroupId(),
+			DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			RandomTestUtil.randomString() + ".jpg", ContentTypes.IMAGE_JPEG,
+			FileUtil.getBytes(
+				AMImageRequestHandlerTest.class, "dependencies/image.jpg"),
+			null, null, null,
+			ServiceContextTestUtil.getServiceContext(
+				_group.getGroupId(), TestPropsValues.getUserId()));
+	}
+
+	private MockHttpServletRequest _createMockHttpServletRequest(
+		FileEntry fileEntry) {
+
+		MockHttpServletRequest mockHttpServletRequest =
+			new MockHttpServletRequest();
+
+		mockHttpServletRequest.setAttribute(
+			WebKeys.COMPANY_ID, _group.getCompanyId());
+		mockHttpServletRequest.setPathInfo(
+			StringBundler.concat(
+				"/image/", fileEntry.getFileEntryId(), "/", _UUID, "/",
+				fileEntry.getFileName()));
+
+		return mockHttpServletRequest;
+	}
+
 	private void _removeResourcePermission(String actionId, long fileEntryId)
 		throws Exception {
 
@@ -169,6 +279,9 @@ public class AMImageRequestHandlerTest {
 
 	@Inject
 	private AMImageConfigurationHelper _amImageConfigurationHelper;
+
+	@Inject(filter = "adaptive.media.handler.pattern=image")
+	private AMRequestHandler<?> _amRequestHandler;
 
 	@Inject
 	private DLAppLocalService _dlAppLocalService;

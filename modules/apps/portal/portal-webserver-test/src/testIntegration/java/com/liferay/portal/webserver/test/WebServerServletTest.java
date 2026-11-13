@@ -454,6 +454,37 @@ public class WebServerServletTest {
 	}
 
 	@Test
+	public void testServiceWithoutHttpSession() throws Exception {
+		FileEntry fileEntry = _dlAppLocalService.addFileEntry(
+			null, TestPropsValues.getUserId(), _group.getGroupId(),
+			DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			RandomTestUtil.randomString() + ".txt", ContentTypes.TEXT_PLAIN,
+			TestDataConstants.TEST_BYTE_ARRAY, null, null, null,
+			ServiceContextTestUtil.getServiceContext(_group.getGroupId()));
+
+		MockHttpServletRequest mockHttpServletRequest =
+			new MockHttpServletRequest();
+
+		mockHttpServletRequest.setAttribute(
+			WebKeys.COMPANY_ID, _group.getCompanyId());
+		mockHttpServletRequest.setRequestURI(
+			StringBundler.concat(
+				"/", fileEntry.getGroupId(), "/", fileEntry.getUuid()));
+
+		MockHttpServletResponse mockHttpServletResponse =
+			new MockHttpServletResponse();
+
+		_webServerServlet.service(
+			mockHttpServletRequest, mockHttpServletResponse);
+
+		Assert.assertArrayEquals(
+			TestDataConstants.TEST_BYTE_ARRAY,
+			mockHttpServletResponse.getContentAsByteArray());
+
+		Assert.assertNull(mockHttpServletRequest.getSession(false));
+	}
+
+	@Test
 	public void testWriteImage() throws Exception {
 		Image image1 = ImageLocalServiceUtil.createImage(0);
 
