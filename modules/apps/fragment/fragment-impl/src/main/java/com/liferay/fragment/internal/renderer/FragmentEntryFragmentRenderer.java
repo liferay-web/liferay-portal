@@ -258,6 +258,23 @@ public class FragmentEntryFragmentRenderer implements FragmentRenderer {
 		}
 	}
 
+	private boolean _isStaleContent(
+		String content, FragmentAssets fragmentAssets) {
+
+		// Module URLs are content hashed, so cached content that does not
+		// reference the current module was rendered before the fragment
+		// collection contributor was redeployed
+
+		if ((fragmentAssets == null) ||
+			Validator.isNull(fragmentAssets.getModuleURL())) {
+
+			return false;
+		}
+
+		return !content.contains(
+			HtmlUtil.escapeAttribute(fragmentAssets.getModuleURL()));
+	}
+
 	private String _renderFragmentEntry(
 			String configuration, String css, FragmentAssets fragmentAssets,
 			FragmentRendererContext fragmentRendererContext, String html,
@@ -447,7 +464,9 @@ public class FragmentEntryFragmentRenderer implements FragmentRenderer {
 			content = _fragmentEntryLinkCache.getFragmentEntryLinkContent(
 				fragmentEntryLink, fragmentRendererContext.getLocale());
 
-			if (Validator.isNotNull(content)) {
+			if (Validator.isNotNull(content) &&
+				!_isStaleContent(content, fragmentAssets)) {
+
 				return StringUtil.replace(
 					content, _NONCE,
 					ContentSecurityPolicyNonceProviderUtil.getNonceAttribute(
