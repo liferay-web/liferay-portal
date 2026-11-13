@@ -5,6 +5,7 @@
 
 package com.liferay.fragment.contributor;
 
+import com.liferay.fragment.assets.FragmentAssets;
 import com.liferay.fragment.model.FragmentComposition;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader;
@@ -20,6 +21,10 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface FragmentCollectionContributorRegistry {
+
+	public default FragmentAssets getFragmentAssets(String fragmentEntryKey) {
+		return null;
+	}
 
 	public FragmentCollectionContributor getFragmentCollectionContributor(
 		String fragmentCollectionKey);

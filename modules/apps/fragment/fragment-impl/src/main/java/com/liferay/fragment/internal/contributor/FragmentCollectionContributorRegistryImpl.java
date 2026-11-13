@@ -7,6 +7,7 @@ package com.liferay.fragment.internal.contributor;
 
 import com.liferay.fragment.configuration.FragmentServiceConfiguration;
 import com.liferay.fragment.constants.FragmentConstants;
+import com.liferay.fragment.assets.FragmentAssets;
 import com.liferay.fragment.contributor.FragmentCollectionContributor;
 import com.liferay.fragment.contributor.FragmentCollectionContributorRegistry;
 import com.liferay.fragment.model.FragmentComposition;
@@ -64,6 +65,26 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 @Component(service = FragmentCollectionContributorRegistry.class)
 public class FragmentCollectionContributorRegistryImpl
 	implements FragmentCollectionContributorRegistry {
+
+	@Override
+	public FragmentAssets getFragmentAssets(String fragmentEntryKey) {
+		FragmentCollectionBag fragmentCollectionBag = _getFragmentCollectionBag(
+			fragmentEntryKey);
+
+		if (fragmentCollectionBag == null) {
+			return null;
+		}
+
+		FragmentCollectionContributor fragmentCollectionContributor =
+			fragmentCollectionBag._fragmentCollectionContributor;
+
+		if (!fragmentCollectionContributor.isEnabled()) {
+			return null;
+		}
+
+		return fragmentCollectionContributor.getFragmentAssets(
+			fragmentEntryKey);
+	}
 
 	@Override
 	public FragmentCollectionContributor getFragmentCollectionContributor(

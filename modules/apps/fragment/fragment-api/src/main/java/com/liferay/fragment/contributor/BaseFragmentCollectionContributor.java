@@ -5,6 +5,7 @@
 
 package com.liferay.fragment.contributor;
 
+import com.liferay.fragment.assets.FragmentAssets;
 import com.liferay.fragment.constants.FragmentConstants;
 import com.liferay.fragment.constants.FragmentExportImportConstants;
 import com.liferay.fragment.exception.InvalidFragmentCompositionKeyException;
@@ -148,6 +149,13 @@ public abstract class BaseFragmentCollectionContributor
 	}
 
 	@Override
+	public FragmentAssets getFragmentAssets(String fragmentEntryKey) {
+		_initialize();
+
+		return _fragmentAssets.get(fragmentEntryKey);
+	}
+
+	@Override
 	public String getName() {
 		_initialize();
 
@@ -222,6 +230,7 @@ public abstract class BaseFragmentCollectionContributor
 						FILE_NAME_FRAGMENT_COMPOSITION,
 					true);
 
+			_fragmentAssets = new HashMap<>();
 			_fragmentCompositionNames = new HashMap<>();
 			_fragmentCompositions = new ArrayList<>();
 			_fragmentEntries = new HashMap<>();
@@ -437,6 +446,20 @@ public abstract class BaseFragmentCollectionContributor
 		fragmentEntry.setTypeOptions(jsonObject.getString("typeOptions"));
 		fragmentEntry.setImagePreviewURL(thumbnailURL);
 
+		JSONObject assetsJSONObject = jsonObject.getJSONObject("assets");
+
+		if (assetsJSONObject != null) {
+			ServletContext servletContext = getServletContext();
+
+			_fragmentAssets.put(
+				fragmentEntryKey,
+				FragmentAssets.fromJSONObject(
+					assetsJSONObject,
+					FragmentAssets.baseURLResolver(
+						PortalUtil.getPathProxy() +
+							servletContext.getContextPath())));
+		}
+
 		return fragmentEntry;
 	}
 
@@ -527,6 +550,7 @@ public abstract class BaseFragmentCollectionContributor
 		BaseFragmentCollectionContributor.class);
 
 	private Bundle _bundle;
+	private Map<String, FragmentAssets> _fragmentAssets = new HashMap<>();
 	private Map<String, Map<Locale, String>> _fragmentCompositionNames;
 	private List<FragmentComposition> _fragmentCompositions;
 	private Map<Integer, List<FragmentEntry>> _fragmentEntries;

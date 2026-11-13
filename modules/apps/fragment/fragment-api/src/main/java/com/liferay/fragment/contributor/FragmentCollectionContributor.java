@@ -5,6 +5,7 @@
 
 package com.liferay.fragment.contributor;
 
+import com.liferay.fragment.assets.FragmentAssets;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.fragment.model.FragmentComposition;
@@ -22,6 +23,10 @@ import java.util.Map;
  */
 @ProviderType
 public interface FragmentCollectionContributor {
+
+	public default FragmentAssets getFragmentAssets(String fragmentEntryKey) {
+		return null;
+	}
 
 	public String getFragmentCollectionKey();
 
