@@ -61,8 +61,6 @@ public class ContentSecurityPolicyNonceManager {
 			return nonce;
 		}
 
-		HttpSession httpSession = httpServletRequest.getSession();
-
 		ContentSecurityPolicyConfiguration contentSecurityPolicyConfiguration =
 			ContentSecurityPolicyConfigurationUtil.
 				getContentSecurityPolicyConfiguration(httpServletRequest);
@@ -72,6 +70,8 @@ public class ContentSecurityPolicyNonceManager {
 		}
 		else if (_frontendSPA.isEnabled(
 					_portal.getCompanyId(httpServletRequest))) {
+
+			HttpSession httpSession = httpServletRequest.getSession();
 
 			nonce = (String)httpSession.getAttribute(_NONCE);
 

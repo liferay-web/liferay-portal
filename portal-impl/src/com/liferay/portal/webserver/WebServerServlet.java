@@ -1597,9 +1597,11 @@ public class WebServerServlet extends HttpServlet {
 	private static User _getUser(HttpServletRequest httpServletRequest)
 		throws Exception {
 
-		HttpSession httpSession = httpServletRequest.getSession();
+		HttpSession httpSession = httpServletRequest.getSession(false);
 
-		if (PortalSessionThreadLocal.getHttpSession() == null) {
+		if ((httpSession != null) &&
+			(PortalSessionThreadLocal.getHttpSession() == null)) {
+
 			PortalSessionThreadLocal.setHttpSession(httpSession);
 		}
 
@@ -1609,13 +1611,16 @@ public class WebServerServlet extends HttpServlet {
 			return user;
 		}
 
-		String userIdString = (String)httpSession.getAttribute("j_username");
-		String password = (String)httpSession.getAttribute("j_password");
+		if (httpSession != null) {
+			String userIdString = (String)httpSession.getAttribute(
+				"j_username");
+			String password = (String)httpSession.getAttribute("j_password");
 
-		if ((userIdString != null) && (password != null)) {
-			long userId = GetterUtil.getLong(userIdString);
+			if ((userIdString != null) && (password != null)) {
+				long userId = GetterUtil.getLong(userIdString);
 
-			return UserLocalServiceUtil.getUser(userId);
+				return UserLocalServiceUtil.getUser(userId);
+			}
 		}
 
 		Company company = CompanyLocalServiceUtil.getCompany(

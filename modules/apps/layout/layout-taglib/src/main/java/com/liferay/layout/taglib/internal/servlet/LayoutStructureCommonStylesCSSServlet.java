@@ -68,9 +68,9 @@ public class LayoutStructureCommonStylesCSSServlet extends HttpServlet {
 		try {
 			User user = _portal.getUser(httpServletRequest);
 
-			if (user == null) {
-				HttpSession httpSession = httpServletRequest.getSession();
+			HttpSession httpSession = httpServletRequest.getSession(false);
 
+			if ((user == null) && (httpSession != null)) {
 				if (PortalSessionThreadLocal.getHttpSession() == null) {
 					PortalSessionThreadLocal.setHttpSession(httpSession);
 				}
