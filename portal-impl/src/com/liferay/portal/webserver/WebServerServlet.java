@@ -318,7 +318,7 @@ public class WebServerServlet extends HttpServlet {
 
 			PrincipalThreadLocal.setName(user.getUserId());
 			PrincipalThreadLocal.setPassword(
-				PortalUtil.getUserPassword(httpServletRequest));
+				_getUserPassword(httpServletRequest));
 
 			PermissionThreadLocal.getPermissionChecker(user, true);
 
@@ -2024,6 +2024,16 @@ public class WebServerServlet extends HttpServlet {
 
 		return PortletProviderUtil.getPortletId(
 			FileEntry.class.getName(), PortletProvider.Action.VIEW);
+	}
+
+	private String _getUserPassword(HttpServletRequest httpServletRequest) {
+		HttpSession httpSession = httpServletRequest.getSession(false);
+
+		if (httpSession == null) {
+			return null;
+		}
+
+		return PortalUtil.getUserPassword(httpSession);
 	}
 
 	private boolean _isImageTokenAccepted(

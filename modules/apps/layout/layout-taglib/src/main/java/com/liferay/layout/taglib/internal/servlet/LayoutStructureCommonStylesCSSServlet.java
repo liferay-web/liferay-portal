@@ -93,8 +93,14 @@ public class LayoutStructureCommonStylesCSSServlet extends HttpServlet {
 			}
 
 			PrincipalThreadLocal.setName(user.getUserId());
-			PrincipalThreadLocal.setPassword(
-				_portal.getUserPassword(httpServletRequest));
+
+			String userPassword = null;
+
+			if (httpSession != null) {
+				userPassword = _portal.getUserPassword(httpSession);
+			}
+
+			PrincipalThreadLocal.setPassword(userPassword);
 
 			permissionChecker = _permissionCheckerFactory.create(user);
 
