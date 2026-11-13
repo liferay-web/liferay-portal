@@ -9,8 +9,10 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.content.security.policy.ContentSecurityPolicyNonceProviderUtil;
 import com.liferay.portal.kernel.servlet.taglib.DynamicInclude;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -87,7 +89,22 @@ public class CSSLayersTopHeadDynamicInclude implements DynamicInclude {
 		printWriter.print("fragments;</style>");
 
 		if (!GetterUtil.getBoolean(
-				httpServletRequest.getAttribute(CLAY_CSS_DISABLED))) {
+				httpServletRequest.getAttribute(CLAY_CSS_DISABLED)) &&
+			_isClayLink(httpServletRequest)) {
+
+			// Spike experiment: load Clay unlayered to isolate the cost of the
+			// layered import
+
+			printWriter.print(
+				"<link data-senna-track=\"temporary\" href=\"");
+			printWriter.print(
+				HtmlUtil.escapeAttribute(themeDisplay.getClayCSSURL()));
+			printWriter.print("\" id=\"liferayAUICSS\"");
+			printWriter.print(nonce);
+			printWriter.print(" rel=\"stylesheet\" type=\"text/css\" />");
+		}
+		else if (!GetterUtil.getBoolean(
+					httpServletRequest.getAttribute(CLAY_CSS_DISABLED))) {
 
 			printWriter.print(
 				"<style data-senna-track=\"temporary\" id=\"liferayAUICSS\"");
@@ -114,6 +131,16 @@ public class CSSLayersTopHeadDynamicInclude implements DynamicInclude {
 	@Override
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register("/html/common/themes/top_head.jsp#pre");
+	}
+
+	private boolean _isClayLink(HttpServletRequest httpServletRequest) {
+		HttpServletRequest originalHttpServletRequest =
+			PortalUtil.getOriginalServletRequest(httpServletRequest);
+
+		return ArrayUtil.contains(
+			StringUtil.split(
+				originalHttpServletRequest.getParameter("fragmentAssets")),
+			"clay-link");
 	}
 
 	private String _encodeURL(String url) {

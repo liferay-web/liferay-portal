@@ -12,15 +12,20 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.content.security.policy.ContentSecurityPolicyNonceProviderUtil;
 import com.liferay.portal.kernel.servlet.taglib.util.OutputData;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.url.builder.AbsolutePortalURLBuilderFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
@@ -43,6 +48,30 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = FragmentAssetsRegistrar.class)
 public class FragmentAssetsRegistrar {
+
+	/**
+	 * Returns the resource hints of the module fragments rendered so far, in
+	 * the format of the HTTP <code>Link</code> header.
+	 */
+	@SuppressWarnings("unchecked")
+	public static Set<String> getLinks(HttpServletRequest httpServletRequest) {
+		return (Set<String>)httpServletRequest.getAttribute(
+			FragmentAssetsRegistrar.class.getName());
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Map<String, String> getStyleSheets(
+		HttpServletRequest httpServletRequest) {
+
+		return (Map<String, String>)httpServletRequest.getAttribute(
+			_STYLE_SHEETS);
+	}
+
+	public static boolean isInlineStyleSheets(
+		HttpServletRequest httpServletRequest) {
+
+		return _hasExperiment("css-inline", httpServletRequest);
+	}
 
 	public String register(
 		FragmentAssets fragmentAssets,
@@ -73,6 +102,12 @@ public class FragmentAssetsRegistrar {
 		OutputData outputData = _getOutputData(httpServletRequest);
 
 		for (String styleSheetURL : fragmentAssets.getStyleSheetURLs()) {
+			if (_addStyleSheet(
+					fragmentAssets, styleSheetURL, httpServletRequest)) {
+
+				continue;
+			}
+
 			if (_add(
 					"fragment-assets-css-" + styleSheetURL,
 					_getStyleSheetTag(nonce, styleSheetURL), outputData)) {
@@ -126,7 +161,9 @@ public class FragmentAssetsRegistrar {
 			return StringPool.BLANK;
 		}
 
-		if (FragmentAssets.HYDRATE_EAGER.equals(fragmentAssets.getHydrate())) {
+		if (FragmentAssets.HYDRATE_EAGER.equals(fragmentAssets.getHydrate()) &&
+			!_hasExperiment("no-modulepreload", httpServletRequest)) {
+
 			if (_add(
 					"fragment-assets-modulepreload-" +
 						fragmentAssets.getModuleURL(),
@@ -167,6 +204,38 @@ public class FragmentAssetsRegistrar {
 		}
 
 		outputData.addDataSB(key, WebKeys.PAGE_TOP, new StringBundler(html));
+
+		return true;
+	}
+
+	private boolean _addStyleSheet(
+		FragmentAssets fragmentAssets, String styleSheetURL,
+		HttpServletRequest httpServletRequest) {
+
+		if (!_hasExperiment("css-combined", httpServletRequest) &&
+			!_hasExperiment("css-inline", httpServletRequest)) {
+
+			return false;
+		}
+
+		Map<String, String> styleSheets = getStyleSheets(httpServletRequest);
+
+		if (styleSheets == null) {
+			styleSheets = new LinkedHashMap<>();
+
+			httpServletRequest.setAttribute(_STYLE_SHEETS, styleSheets);
+		}
+		else if (styleSheets.containsKey(styleSheetURL)) {
+			return true;
+		}
+
+		String styleSheet = fragmentAssets.getStyleSheet(styleSheetURL);
+
+		if (styleSheet == null) {
+			return false;
+		}
+
+		styleSheets.put(styleSheetURL, styleSheet);
 
 		return true;
 	}
@@ -282,6 +351,24 @@ public class FragmentAssetsRegistrar {
 			_COUNT_PREFIX + name, _getCount(name, httpServletRequest) + 1);
 	}
 
+	/**
+	 * Reads the comma separated experiments of the spike from the
+	 * <code>fragmentAssets</code> parameter of the page request, such as
+	 * <code>css-combined</code>, <code>css-inline</code>, or
+	 * <code>no-modulepreload</code>.
+	 */
+	private static boolean _hasExperiment(
+		String experiment, HttpServletRequest httpServletRequest) {
+
+		HttpServletRequest originalHttpServletRequest =
+			PortalUtil.getOriginalServletRequest(httpServletRequest);
+
+		return ArrayUtil.contains(
+			StringUtil.split(
+				originalHttpServletRequest.getParameter("fragmentAssets")),
+			experiment);
+	}
+
 	private boolean _isInline(
 		FragmentRendererContext fragmentRendererContext,
 		HttpServletRequest httpServletRequest) {
@@ -314,6 +401,9 @@ public class FragmentAssetsRegistrar {
 	private static final int _MAX_PRECONNECTS = 4;
 
 	private static final int _MAX_PRELOADS = 2;
+
+	private static final String _STYLE_SHEETS =
+		FragmentAssetsRegistrar.class.getName() + "#styleSheets";
 
 	@Reference
 	private AbsolutePortalURLBuilderFactory _absolutePortalURLBuilderFactory;

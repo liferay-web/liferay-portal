@@ -451,13 +451,14 @@ public abstract class BaseFragmentCollectionContributor
 		if (assetsJSONObject != null) {
 			ServletContext servletContext = getServletContext();
 
+			String baseURL =
+				PortalUtil.getPathProxy() + servletContext.getContextPath();
+
 			_fragmentAssets.put(
 				fragmentEntryKey,
 				FragmentAssets.fromJSONObject(
-					assetsJSONObject,
-					FragmentAssets.baseURLResolver(
-						PortalUtil.getPathProxy() +
-							servletContext.getContextPath())));
+					assetsJSONObject, FragmentAssets.baseURLResolver(baseURL),
+					styleSheetURL -> _readStyleSheet(baseURL, styleSheetURL)));
 		}
 
 		return fragmentEntry;
@@ -476,6 +477,30 @@ public abstract class BaseFragmentCollectionContributor
 		return StringBundler.concat(
 			PortalUtil.getPathProxy(), servletContext.getContextPath(),
 			"/thumbnails/", fileName);
+	}
+
+	private String _readStyleSheet(String baseURL, String styleSheetURL) {
+		if (!styleSheetURL.startsWith(baseURL + StringPool.SLASH)) {
+			return null;
+		}
+
+		URL url = _bundle.getResource(
+			"META-INF/resources" + styleSheetURL.substring(baseURL.length()));
+
+		if (url == null) {
+			return null;
+		}
+
+		try {
+			return URLUtil.toString(url);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to read " + styleSheetURL, exception);
+			}
+
+			return null;
+		}
 	}
 
 	private void _initialize() {

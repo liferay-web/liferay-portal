@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 /**
@@ -54,6 +55,17 @@ public class FragmentAssets {
 
 	public static FragmentAssets fromJSONObject(
 		JSONObject jsonObject, UnaryOperator<String> urlResolver) {
+
+		return fromJSONObject(jsonObject, urlResolver, null);
+	}
+
+	/**
+	 * @param styleSheetReader returns the content of a resolved style sheet
+	 *        URL, or <code>null</code> when the channel cannot read it locally
+	 */
+	public static FragmentAssets fromJSONObject(
+		JSONObject jsonObject, UnaryOperator<String> urlResolver,
+		Function<String, String> styleSheetReader) {
 
 		if (jsonObject == null) {
 			return null;
@@ -138,7 +150,7 @@ public class FragmentAssets {
 
 		return new FragmentAssets(
 			hydrate, moduleDependencyURLs, moduleURL, preconnects, preloads,
-			styleSheetURLs);
+			styleSheetReader, styleSheetURLs);
 	}
 
 	public String getHydrate() {
@@ -159,6 +171,21 @@ public class FragmentAssets {
 
 	public List<Preload> getPreloads() {
 		return _preloads;
+	}
+
+	/**
+	 * Returns the content of one of the fragment's style sheets, so that it can
+	 * be combined with others or inlined, or <code>null</code> when it is only
+	 * available through its URL.
+	 */
+	public String getStyleSheet(String styleSheetURL) {
+		if ((_styleSheetReader == null) ||
+			!_styleSheetURLs.contains(styleSheetURL)) {
+
+			return null;
+		}
+
+		return _styleSheetReader.apply(styleSheetURL);
 	}
 
 	public List<String> getStyleSheetURLs() {
@@ -243,6 +270,7 @@ public class FragmentAssets {
 	private FragmentAssets(
 		String hydrate, List<String> moduleDependencyURLs, String moduleURL,
 		List<Preconnect> preconnects, List<Preload> preloads,
+		Function<String, String> styleSheetReader,
 		List<String> styleSheetURLs) {
 
 		_hydrate = hydrate;
@@ -251,6 +279,7 @@ public class FragmentAssets {
 		_moduleURL = moduleURL;
 		_preconnects = Collections.unmodifiableList(preconnects);
 		_preloads = Collections.unmodifiableList(preloads);
+		_styleSheetReader = styleSheetReader;
 		_styleSheetURLs = Collections.unmodifiableList(styleSheetURLs);
 	}
 
@@ -259,6 +288,7 @@ public class FragmentAssets {
 	private final String _moduleURL;
 	private final List<Preconnect> _preconnects;
 	private final List<Preload> _preloads;
+	private final Function<String, String> _styleSheetReader;
 	private final List<String> _styleSheetURLs;
 
 }
