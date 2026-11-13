@@ -250,6 +250,9 @@ public class CETFactoryImpl implements CETFactory {
 			ClientExtensionEntryConstants.TYPE_FDS_VISUALIZATION_MODE,
 			new FDSVisualizationModeCETImplFactoryImpl()
 		).put(
+			ClientExtensionEntryConstants.TYPE_FRAGMENT_COLLECTION,
+			new FragmentCollectionCETImplFactoryImpl()
+		).put(
 			ClientExtensionEntryConstants.TYPE_GLOBAL_CSS,
 			new GlobalCSSCETImplFactoryImpl()
 		).put(

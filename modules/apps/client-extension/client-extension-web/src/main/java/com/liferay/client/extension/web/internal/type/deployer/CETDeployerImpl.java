@@ -12,6 +12,7 @@ import com.liferay.client.extension.type.CET;
 import com.liferay.client.extension.type.CommerceCheckoutStepCET;
 import com.liferay.client.extension.type.CustomElementCET;
 import com.liferay.client.extension.type.EditorConfigContributorCET;
+import com.liferay.client.extension.type.FragmentCollectionCET;
 import com.liferay.client.extension.type.IFrameCET;
 import com.liferay.client.extension.type.JSImportMapsEntryCET;
 import com.liferay.client.extension.type.ThemeCSSCET;
@@ -79,6 +80,12 @@ public class CETDeployerImpl implements CETDeployer {
 						TYPE_EDITOR_CONFIG_CONTRIBUTOR)) {
 
 			return _deploy((EditorConfigContributorCET)cet);
+		}
+		else if (Objects.equals(
+					cet.getType(),
+					ClientExtensionEntryConstants.TYPE_FRAGMENT_COLLECTION)) {
+
+			return _deploy((FragmentCollectionCET)cet);
 		}
 		else if (Objects.equals(
 					cet.getType(), ClientExtensionEntryConstants.TYPE_IFRAME)) {
@@ -184,6 +191,20 @@ public class CETDeployerImpl implements CETDeployer {
 					editorConfigContributorCET.getEditorNames(),
 					editorConfigContributorCET.getPortletNames(),
 					editorConfigContributorCET.getURL())));
+	}
+
+	private List<ServiceRegistration<?>> _deploy(
+		FragmentCollectionCET fragmentCollectionCET) {
+
+		return Arrays.asList(
+			_bundleContext.registerService(
+				FragmentCollectionCET.class, fragmentCollectionCET,
+				HashMapDictionaryBuilder.<String, Object>put(
+					"company.id", fragmentCollectionCET.getCompanyId()
+				).put(
+					"external.reference.code",
+					fragmentCollectionCET.getExternalReferenceCode()
+				).build()));
 	}
 
 	private List<ServiceRegistration<?>> _deploy(IFrameCET iFrameCET) {

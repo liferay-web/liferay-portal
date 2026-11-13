@@ -28,6 +28,9 @@ public class ClientExtensionEntryConstants {
 	public static final String TYPE_FDS_VISUALIZATION_MODE =
 		"fdsVisualizationMode";
 
+	public static final String TYPE_FRAGMENT_COLLECTION =
+		"fragmentCollection";
+
 	public static final String TYPE_GLOBAL_CSS = "globalCSS";
 
 	public static final String TYPE_GLOBAL_JS = "globalJS";
