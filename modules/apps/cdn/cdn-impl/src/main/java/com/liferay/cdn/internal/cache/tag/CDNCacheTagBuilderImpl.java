@@ -7,6 +7,7 @@ package com.liferay.cdn.internal.cache.tag;
 
 import com.liferay.cdn.cache.tag.CDNCacheTagBuilder;
 import com.liferay.cdn.cache.tag.CDNCacheTagModelResolver;
+import com.liferay.cdn.configuration.CDNConfiguration;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.fragment.model.FragmentEntryLink;
 import com.liferay.layout.page.template.constants.LayoutPageTemplateEntryTypeConstants;
@@ -15,10 +16,15 @@ import com.liferay.layout.page.template.service.LayoutPageTemplateEntryLocalServ
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.site.navigation.model.SiteNavigationMenu;
 import com.liferay.site.navigation.model.SiteNavigationMenuItem;
@@ -52,27 +58,30 @@ public class CDNCacheTagBuilderImpl implements CDNCacheTagBuilder {
 		long companyId, long groupId, long classNameId) {
 
 		return _getCacheTag(
-			StringBundler.concat("l", groupId, "-", classNameId));
+			companyId, StringBundler.concat("l", groupId, "-", classNameId));
 	}
 
 	@Override
 	public String getCompanyCacheTag(long companyId) {
-		return _getCacheTag("c" + companyId);
+		return _getCacheTag(companyId, "c" + companyId);
 	}
 
 	@Override
 	public String getGroupCacheTag(long companyId, long groupId) {
-		return _getCacheTag("s" + groupId);
+		return _getCacheTag(companyId, "s" + groupId);
 	}
 
 	@Override
 	public Set<String> getLayoutCacheTags(Layout layout) {
 		Set<String> cacheTags = new LinkedHashSet<>();
 
-		cacheTags.add(_getCacheTag("p" + layout.getPlid()));
+		cacheTags.add(
+			_getCacheTag(layout.getCompanyId(), "p" + layout.getPlid()));
 
 		if (layout.getMasterLayoutPlid() > 0) {
-			cacheTags.add(_getCacheTag("p" + layout.getMasterLayoutPlid()));
+			cacheTags.add(
+				_getCacheTag(
+					layout.getCompanyId(), "p" + layout.getMasterLayoutPlid()));
 		}
 
 		return cacheTags;
@@ -98,12 +107,12 @@ public class CDNCacheTagBuilderImpl implements CDNCacheTagBuilder {
 			return null;
 		}
 
-		return _getCacheTag(cacheTag);
+		return _getCacheTag(companyId, cacheTag);
 	}
 
 	@Override
 	public String getOverflowCacheTag(long companyId, long groupId) {
-		return _getCacheTag("x" + groupId);
+		return _getCacheTag(companyId, "x" + groupId);
 	}
 
 	@Override
@@ -202,8 +211,24 @@ public class CDNCacheTagBuilderImpl implements CDNCacheTagBuilder {
 		_serviceTrackerMap.close();
 	}
 
-	private String _getCacheTag(String cacheTag) {
-		return _CACHE_TAG_NAMESPACE + cacheTag;
+	private String _getCacheTag(long companyId, String cacheTag) {
+		String cacheTagNamespace = _CACHE_TAG_NAMESPACE_DEFAULT;
+
+		try {
+			CDNConfiguration cdnConfiguration =
+				_configurationProvider.getCompanyConfiguration(
+					CDNConfiguration.class, companyId);
+
+			cacheTagNamespace = GetterUtil.getString(
+				cdnConfiguration.cacheTagNamespace());
+		}
+		catch (ConfigurationException configurationException) {
+			_log.error(
+				"Unable to get the CDN configuration for company " + companyId,
+				configurationException);
+		}
+
+		return cacheTagNamespace + cacheTag;
 	}
 
 	private String _getModelCacheTag(String className, long classPK) {
@@ -264,10 +289,13 @@ public class CDNCacheTagBuilderImpl implements CDNCacheTagBuilder {
 		return false;
 	}
 
-	private static final String _CACHE_TAG_NAMESPACE = "lfr-";
+	private static final String _CACHE_TAG_NAMESPACE_DEFAULT = "lfr-";
 
 	private static final String _CLASS_NAME_PREFIX_OBJECT =
 		"com.liferay.object.model.ObjectDefinition#";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CDNCacheTagBuilderImpl.class);
 
 	private static final Map<String, String> _prefixes = HashMapBuilder.put(
 		"com.liferay.blogs.model.BlogsEntry", "b"
@@ -280,6 +308,9 @@ public class CDNCacheTagBuilderImpl implements CDNCacheTagBuilder {
 	).put(
 		"com.liferay.portal.kernel.model.Layout", "p"
 	).build();
+
+	@Reference
+	private ConfigurationProvider _configurationProvider;
 
 	@Reference
 	private LayoutLocalService _layoutLocalService;

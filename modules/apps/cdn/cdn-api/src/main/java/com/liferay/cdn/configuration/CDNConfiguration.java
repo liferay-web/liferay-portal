@@ -40,6 +40,12 @@ public interface CDNConfiguration {
 	public String cacheTagHeaderSeparator();
 
 	@Meta.AD(
+		deflt = "lfr-", description = "cdn-cache-tag-namespace-help",
+		name = "cache-tag-namespace", required = false
+	)
+	public String cacheTagNamespace();
+
+	@Meta.AD(
 		deflt = "2000", description = "cdn-coalesce-window-ms-help",
 		name = "coalesce-window-ms", required = false
 	)
