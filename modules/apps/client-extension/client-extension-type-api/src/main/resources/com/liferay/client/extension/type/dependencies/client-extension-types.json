@@ -539,6 +539,16 @@
 		"properties": [
 			{
 				"default": "",
+				"name": "baselineURL",
+				"type": "CETProperty.Type.URL"
+			},
+			{
+				"default": "always",
+				"name": "clayLoading",
+				"type": "CETProperty.Type.String"
+			},
+			{
+				"default": "",
 				"name": "clayRTLURL",
 				"type": "CETProperty.Type.URL"
 			},

@@ -46,6 +46,26 @@ ThemeCSSCET themeCSSCET = editClientExtensionEntryDisplayContext.getCET();
 </aui:field-wrapper>
 
 <aui:field-wrapper cssClass="form-group">
+	<aui:select label="clay-loading" name="clayLoading" value="<%= themeCSSCET.getClayLoading() %>">
+		<aui:option label="always" value="<%= ThemeCSSCET.CLAY_LOADING_ALWAYS %>" />
+		<aui:option label="signed-in-users-only" value="<%= ThemeCSSCET.CLAY_LOADING_SIGNED_IN %>" />
+		<aui:option label="never" value="<%= ThemeCSSCET.CLAY_LOADING_NEVER %>" />
+	</aui:select>
+
+	<div class="form-text">
+		<liferay-ui:message key="clay-css-is-loaded-in-a-cascade-layer-below-fragments-when-it-is-not-loaded-for-everyone" />
+	</div>
+</aui:field-wrapper>
+
+<aui:field-wrapper cssClass="form-group">
+	<aui:input label="baseline-css-url" name="baselineURL" type="text" value="<%= themeCSSCET.getBaselineURL() %>" />
+
+	<div class="form-text">
+		<liferay-ui:message key="this-css-provides-the-reset-and-baseline-styles-that-fragments-build-on" />
+	</div>
+</aui:field-wrapper>
+
+<aui:field-wrapper cssClass="form-group">
 	<react:component
 		module="{FrontendTokenDefinitionFilePicker} from client-extension-web"
 		props='<%=

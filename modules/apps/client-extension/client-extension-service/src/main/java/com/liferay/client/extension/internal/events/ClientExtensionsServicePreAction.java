@@ -6,6 +6,7 @@
 package com.liferay.client.extension.internal.events;
 
 import com.liferay.client.extension.constants.ClientExtensionEntryConstants;
+import com.liferay.client.extension.internal.service.taglib.CSSLayersTopHeadDynamicInclude;
 import com.liferay.client.extension.model.ClientExtensionEntryRel;
 import com.liferay.client.extension.service.ClientExtensionEntryRelLocalService;
 import com.liferay.client.extension.type.CET;
@@ -79,6 +80,8 @@ public class ClientExtensionsServicePreAction extends Action {
 				themeDisplay.setClayCSSURL(themeCSSCET.getClayURL());
 				themeDisplay.setMainCSSURL(themeCSSCET.getMainURL());
 			}
+
+			_setCSSLayers(httpServletRequest, themeCSSCET, themeDisplay);
 		}
 
 		ThemeSpritemapCET themeSpritemapCET = _getThemeSpritemapCET(
@@ -319,6 +322,36 @@ public class ClientExtensionsServicePreAction extends Action {
 		}
 
 		return null;
+	}
+
+	private void _setCSSLayers(
+		HttpServletRequest httpServletRequest, ThemeCSSCET themeCSSCET,
+		ThemeDisplay themeDisplay) {
+
+		String baselineURL = themeCSSCET.getBaselineURL();
+		String clayLoading = themeCSSCET.getClayLoading();
+
+		if (Validator.isNull(baselineURL) &&
+			clayLoading.equals(ThemeCSSCET.CLAY_LOADING_ALWAYS)) {
+
+			return;
+		}
+
+		httpServletRequest.setAttribute(
+			CSSLayersTopHeadDynamicInclude.CSS_LAYERS, Boolean.TRUE);
+
+		if (Validator.isNotNull(baselineURL)) {
+			httpServletRequest.setAttribute(
+				CSSLayersTopHeadDynamicInclude.BASELINE_CSS_URL, baselineURL);
+		}
+
+		if (clayLoading.equals(ThemeCSSCET.CLAY_LOADING_NEVER) ||
+			(clayLoading.equals(ThemeCSSCET.CLAY_LOADING_SIGNED_IN) &&
+			 !themeDisplay.isSignedIn())) {
+
+			httpServletRequest.setAttribute(
+				CSSLayersTopHeadDynamicInclude.CLAY_CSS_DISABLED, Boolean.TRUE);
+		}
 	}
 
 	@Reference

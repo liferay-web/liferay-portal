@@ -10,6 +10,7 @@ import com.liferay.client.extension.type.ThemeCSSCET;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -27,6 +28,24 @@ public class ThemeCSSCETImpl extends BaseCETImpl implements ThemeCSSCET {
 			baseURL, companyId, createDate, description, externalReferenceCode,
 			modifiedDate, name, properties, readOnly, sourceCodeURL, status,
 			typeSettingsUnicodeProperties);
+	}
+
+	@Override
+	public String getBaselineURL() {
+		return getString("baselineURL");
+	}
+
+	@Override
+	public String getClayLoading() {
+		String clayLoading = getString("clayLoading");
+
+		if (Objects.equals(clayLoading, CLAY_LOADING_NEVER) ||
+			Objects.equals(clayLoading, CLAY_LOADING_SIGNED_IN)) {
+
+			return clayLoading;
+		}
+
+		return CLAY_LOADING_ALWAYS;
 	}
 
 	@Override

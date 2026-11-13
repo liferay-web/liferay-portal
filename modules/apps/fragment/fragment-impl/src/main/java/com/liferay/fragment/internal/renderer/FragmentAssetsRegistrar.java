@@ -31,7 +31,8 @@ import org.osgi.service.component.annotations.Reference;
  * the tags go to the page head through {@link WebKeys#PAGE_TOP}. When the head
  * is not going to be written (edit, preview, and index modes, and isolated,
  * resource, exclusive, or PJAX requests) they are returned to be written next
- * to the fragment instead.
+ * to the fragment instead. It also flags the request so that the page head
+ * declares the CSS cascade layer order before any style sheet.
  *
  * <p>
  * Registration runs on every render, including fragment cache hits, so it
@@ -43,13 +44,12 @@ import org.osgi.service.component.annotations.Reference;
 @Component(service = FragmentAssetsRegistrar.class)
 public class FragmentAssetsRegistrar {
 
-	public static final String LAYER_ORDER =
-		"@layer dxp.reset, dxp.clay, dxp.baseline, fragments;";
-
 	public String register(
 		FragmentAssets fragmentAssets,
 		FragmentRendererContext fragmentRendererContext,
 		HttpServletRequest httpServletRequest) {
+
+		httpServletRequest.setAttribute(_CSS_LAYERS, Boolean.TRUE);
 
 		Set<String> links = _getLinks(httpServletRequest);
 
@@ -71,13 +71,6 @@ public class FragmentAssetsRegistrar {
 		}
 
 		OutputData outputData = _getOutputData(httpServletRequest);
-
-		_add(
-			"fragment-assets-layer-order",
-			StringBundler.concat(
-				"<style data-senna-track=\"temporary\" ", nonce, ">",
-				LAYER_ORDER, "</style>"),
-			outputData);
 
 		for (String styleSheetURL : fragmentAssets.getStyleSheetURLs()) {
 			if (_add(
@@ -315,6 +308,8 @@ public class FragmentAssetsRegistrar {
 
 	private static final String _COUNT_PREFIX =
 		FragmentAssetsRegistrar.class.getName() + "#";
+
+	private static final String _CSS_LAYERS = "LIFERAY_SHARED_CSS_LAYERS";
 
 	private static final int _MAX_PRECONNECTS = 4;
 

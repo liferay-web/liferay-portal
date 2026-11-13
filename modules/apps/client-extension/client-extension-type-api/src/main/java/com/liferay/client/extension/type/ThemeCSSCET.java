@@ -17,6 +17,23 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface ThemeCSSCET extends CET {
 
+	public static final String CLAY_LOADING_ALWAYS = "always";
+
+	public static final String CLAY_LOADING_NEVER = "never";
+
+	public static final String CLAY_LOADING_SIGNED_IN = "signedIn";
+
+	@CETProperty(
+		defaultValue = "", name = "baselineURL", type = CETProperty.Type.URL
+	)
+	public String getBaselineURL();
+
+	@CETProperty(
+		defaultValue = "always", name = "clayLoading",
+		type = CETProperty.Type.String
+	)
+	public String getClayLoading();
+
 	@CETProperty(
 		defaultValue = "", name = "clayRTLURL", type = CETProperty.Type.URL
 	)

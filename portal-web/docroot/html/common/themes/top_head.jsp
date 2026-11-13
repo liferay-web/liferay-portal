@@ -18,7 +18,9 @@
 
 <%-- Portal CSS --%>
 
-<aui:link cssClass="lfr-css-file" href="<%= HtmlUtil.escapeAttribute(themeDisplay.getClayCSSURL()) %>" id="liferayAUICSS" rel="stylesheet" senna="temporary" type="text/css" />
+<c:if test='<%= !GetterUtil.getBoolean(request.getAttribute("LIFERAY_SHARED_CSS_LAYERS_WRITTEN")) %>'>
+	<aui:link cssClass="lfr-css-file" href="<%= HtmlUtil.escapeAttribute(themeDisplay.getClayCSSURL()) %>" id="liferayAUICSS" rel="stylesheet" senna="temporary" type="text/css" />
+</c:if>
 
 <%
 PortletTreeSet portletTreeSet = null;

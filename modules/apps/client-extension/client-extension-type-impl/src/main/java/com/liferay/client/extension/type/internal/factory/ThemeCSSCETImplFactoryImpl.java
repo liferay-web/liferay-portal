@@ -55,6 +55,12 @@ public class ThemeCSSCETImplFactoryImpl
 		return UnicodePropertiesBuilder.create(
 			true
 		).put(
+			"baselineURL", ParamUtil.getString(portletRequest, "baselineURL")
+		).put(
+			"clayLoading",
+			ParamUtil.getString(
+				portletRequest, "clayLoading", ThemeCSSCET.CLAY_LOADING_ALWAYS)
+		).put(
 			"clayRTLURL", ParamUtil.getString(portletRequest, "clayRTLURL")
 		).put(
 			"clayURL", ParamUtil.getString(portletRequest, "clayURL")
@@ -86,6 +92,16 @@ public class ThemeCSSCETImplFactoryImpl
 			throw new ClientExtensionEntryTypeSettingsException(
 				"Invalid Clay CSS URL: " + clayURL, "clay-css-url-x-is-invalid",
 				clayURL);
+		}
+
+		String baselineURL = newThemeCSSCET.getBaselineURL();
+
+		if (!Validator.isBlank(baselineURL) &&
+			!Validator.isUrl(baselineURL, true)) {
+
+			throw new ClientExtensionEntryTypeSettingsException(
+				"Invalid baseline CSS URL: " + baselineURL,
+				"baseline-css-url-x-is-invalid", baselineURL);
 		}
 
 		String mainURL = newThemeCSSCET.getMainURL();
