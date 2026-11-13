@@ -9,7 +9,11 @@
 					"name": "numberOfTabs",
 					"type": "text",
 					"typeOptions": {
-						"validation": {"max": 8, "min": 1, "type": "number"}
+						"validation": {
+							"max": 8,
+							"min": 1,
+							"type": "number"
+						}
 					}
 				},
 				{
@@ -19,8 +23,14 @@
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"label": "Centered", "value": "centered"},
-							{"label": "Full Width", "value": "full"}
+							{
+								"label": "Centered",
+								"value": "centered"
+							},
+							{
+								"label": "Full Width",
+								"value": "full"
+							}
 						]
 					}
 				},

@@ -9,7 +9,11 @@
 					"name": "numberOfSlides",
 					"type": "text",
 					"typeOptions": {
-						"validation": {"max": 12, "min": 1, "type": "number"}
+						"validation": {
+							"max": 12,
+							"min": 1,
+							"type": "number"
+						}
 					}
 				},
 				{
@@ -32,9 +36,18 @@
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"label": "Full", "value": "100%"},
-							{"label": "Peek", "value": "85%"},
-							{"label": "Half", "value": "50%"}
+							{
+								"label": "Full",
+								"value": "100%"
+							},
+							{
+								"label": "Peek",
+								"value": "85%"
+							},
+							{
+								"label": "Half",
+								"value": "50%"
+							}
 						]
 					}
 				}

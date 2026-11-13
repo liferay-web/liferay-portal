@@ -5,9 +5,9 @@
 
 package com.liferay.fragment.internal.contributor;
 
+import com.liferay.fragment.assets.FragmentAssets;
 import com.liferay.fragment.configuration.FragmentServiceConfiguration;
 import com.liferay.fragment.constants.FragmentConstants;
-import com.liferay.fragment.assets.FragmentAssets;
 import com.liferay.fragment.contributor.FragmentCollectionContributor;
 import com.liferay.fragment.contributor.FragmentCollectionContributorRegistry;
 import com.liferay.fragment.model.FragmentComposition;

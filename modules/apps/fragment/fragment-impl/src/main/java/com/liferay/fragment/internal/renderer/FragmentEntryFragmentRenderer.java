@@ -467,10 +467,12 @@ public class FragmentEntryFragmentRenderer implements FragmentRenderer {
 			if (Validator.isNotNull(content) &&
 				!_isStaleContent(content, fragmentAssets)) {
 
-				return StringUtil.replace(
+				String nonceContent = StringUtil.replace(
 					content, _NONCE,
 					ContentSecurityPolicyNonceProviderUtil.getNonceAttribute(
-						httpServletRequest)) + fragmentAssetsHTML;
+						httpServletRequest));
+
+				return nonceContent + fragmentAssetsHTML;
 			}
 		}
 		else {
@@ -575,10 +577,12 @@ public class FragmentEntryFragmentRenderer implements FragmentRenderer {
 		_fragmentEntryLinkCache.putFragmentEntryLinkContent(
 			content, fragmentEntryLink, fragmentRendererContext.getLocale());
 
-		return StringUtil.replace(
+		String nonceContent = StringUtil.replace(
 			content, _NONCE,
 			ContentSecurityPolicyNonceProviderUtil.getNonceAttribute(
-				httpServletRequest)) + fragmentAssetsHTML;
+				httpServletRequest));
+
+		return nonceContent + fragmentAssetsHTML;
 	}
 
 	private String _toConfiguration(

@@ -44,8 +44,7 @@ public class FragmentAssetsCacheFilter extends BaseFilter {
 		HttpServletRequest httpServletRequest,
 		HttpServletResponse httpServletResponse) {
 
-		Matcher matcher = _pattern.matcher(
-			httpServletRequest.getRequestURI());
+		Matcher matcher = _pattern.matcher(httpServletRequest.getRequestURI());
 
 		return matcher.matches();
 	}
@@ -85,7 +84,7 @@ public class FragmentAssetsCacheFilter extends BaseFilter {
 			});
 	}
 
-	private static boolean _isCacheHeader(String name) {
+	private boolean _isCacheHeader(String name) {
 		if (StringUtil.equalsIgnoreCase(name, HttpHeaders.CACHE_CONTROL) ||
 			StringUtil.equalsIgnoreCase(name, HttpHeaders.EXPIRES) ||
 			StringUtil.equalsIgnoreCase(name, HttpHeaders.PRAGMA)) {

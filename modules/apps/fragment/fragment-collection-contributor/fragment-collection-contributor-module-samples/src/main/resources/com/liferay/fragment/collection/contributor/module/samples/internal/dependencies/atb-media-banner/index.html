@@ -6,10 +6,10 @@
 	<div class="atb-media-banner__media">
 		<video aria-hidden="true" class="atb-media-banner__video" disablepictureinpicture loop muted playsinline preload="none">
 			[#if configuration.videoUrlHevc?has_content]
-				<source data-src="${configuration.videoUrlHevc?html}" type="video/quicktime; codecs=&quot;hvc1&quot;">
+				<source data-src="${configuration.videoUrlHevc?html}" type="video/quicktime; codecs=&quot;hvc1&quot;" />
 			[/#if]
 			[#if configuration.videoUrl?has_content]
-				<source data-src="${configuration.videoUrl?html}" type="video/webm">
+				<source data-src="${configuration.videoUrl?html}" type="video/webm" />
 			[/#if]
 		</video>
 	</div>

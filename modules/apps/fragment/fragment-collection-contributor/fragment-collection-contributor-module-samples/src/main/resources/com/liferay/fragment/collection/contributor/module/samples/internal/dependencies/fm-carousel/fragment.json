@@ -14,8 +14,10 @@
 			"hydrate": "idle",
 			"module": "dist/fm-carousel.a8b07118.js"
 		},
-		"preconnect": [],
-		"preload": [],
+		"preconnect": [
+		],
+		"preload": [
+		],
 		"version": 1
 	},
 	"cacheable": true,

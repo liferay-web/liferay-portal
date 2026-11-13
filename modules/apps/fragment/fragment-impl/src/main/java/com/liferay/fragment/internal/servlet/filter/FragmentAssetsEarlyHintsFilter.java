@@ -132,8 +132,7 @@ public class FragmentAssetsEarlyHintsFilter extends BaseFilter {
 
 			if (Validator.isNotNull(url)) {
 				links.add(
-					StringBundler.concat(
-						"<", url, ">; rel=preload; as=style"));
+					StringBundler.concat("<", url, ">; rel=preload; as=style"));
 			}
 		}
 

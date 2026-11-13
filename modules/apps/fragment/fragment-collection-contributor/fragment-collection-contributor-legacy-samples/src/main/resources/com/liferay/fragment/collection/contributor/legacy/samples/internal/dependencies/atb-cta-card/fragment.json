@@ -2,10 +2,10 @@
 	"cacheable": true,
 	"configurationPath": "configuration.json",
 	"cssPath": "index.css",
+	"fragmentEntryKey": "atb-cta-card",
 	"htmlPath": "index.html",
 	"icon": "cards2",
 	"jsPath": "index.js",
 	"name": "ATB CTA Card",
-	"type": "component",
-	"fragmentEntryKey": "atb-cta-card"
+	"type": "component"
 }

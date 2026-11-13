@@ -2,10 +2,10 @@
 	"cacheable": true,
 	"configurationPath": "configuration.json",
 	"cssPath": "index.css",
+	"fragmentEntryKey": "atb-media-banner",
 	"htmlPath": "index.html",
 	"icon": "picture",
 	"jsPath": "index.js",
 	"name": "ATB Media Banner",
-	"type": "component",
-	"fragmentEntryKey": "atb-media-banner"
+	"type": "component"
 }

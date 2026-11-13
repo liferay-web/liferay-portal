@@ -13,8 +13,10 @@
 			"hydrate": "visible",
 			"module": "dist/atb-tabs-menu-features.9666a4d9.js"
 		},
-		"preconnect": [],
-		"preload": [],
+		"preconnect": [
+		],
+		"preload": [
+		],
 		"version": 1
 	},
 	"cacheable": true,

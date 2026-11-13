@@ -61,6 +61,13 @@ public abstract class BaseFragmentCollectionContributor
 	implements FragmentCollectionContributor {
 
 	@Override
+	public FragmentAssets getFragmentAssets(String fragmentEntryKey) {
+		_initialize();
+
+		return _fragmentAssets.get(fragmentEntryKey);
+	}
+
+	@Override
 	public List<FragmentComposition> getFragmentCompositions() {
 		_initialize();
 
@@ -146,13 +153,6 @@ public abstract class BaseFragmentCollectionContributor
 		}
 
 		return _fragmentEntryJSONNames.get(fragmentEntryKey);
-	}
-
-	@Override
-	public FragmentAssets getFragmentAssets(String fragmentEntryKey) {
-		_initialize();
-
-		return _fragmentAssets.get(fragmentEntryKey);
 	}
 
 	@Override
@@ -479,30 +479,6 @@ public abstract class BaseFragmentCollectionContributor
 			"/thumbnails/", fileName);
 	}
 
-	private String _readStyleSheet(String baseURL, String styleSheetURL) {
-		if (!styleSheetURL.startsWith(baseURL + StringPool.SLASH)) {
-			return null;
-		}
-
-		URL url = _bundle.getResource(
-			"META-INF/resources" + styleSheetURL.substring(baseURL.length()));
-
-		if (url == null) {
-			return null;
-		}
-
-		try {
-			return URLUtil.toString(url);
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to read " + styleSheetURL, exception);
-			}
-
-			return null;
-		}
-	}
-
 	private void _initialize() {
 		if (_initialized) {
 			return;
@@ -543,6 +519,30 @@ public abstract class BaseFragmentCollectionContributor
 		}
 
 		return StringPool.BLANK;
+	}
+
+	private String _readStyleSheet(String baseURL, String styleSheetURL) {
+		if (!styleSheetURL.startsWith(baseURL + StringPool.SLASH)) {
+			return null;
+		}
+
+		URL url = _bundle.getResource(
+			"META-INF/resources" + styleSheetURL.substring(baseURL.length()));
+
+		if (url == null) {
+			return null;
+		}
+
+		try {
+			return URLUtil.toString(url);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to read " + styleSheetURL, exception);
+			}
+
+			return null;
+		}
 	}
 
 	private void _setLocalizedNames(

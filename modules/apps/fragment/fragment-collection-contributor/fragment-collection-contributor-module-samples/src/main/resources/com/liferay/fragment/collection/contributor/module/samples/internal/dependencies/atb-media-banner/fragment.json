@@ -14,7 +14,8 @@
 			"hydrate": "eager",
 			"module": "dist/atb-media-banner.88589b21.js"
 		},
-		"preconnect": [],
+		"preconnect": [
+		],
 		"preload": [
 			{
 				"as": "image",

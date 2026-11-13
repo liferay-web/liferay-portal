@@ -80,8 +80,6 @@ public class FragmentAssetsRegistrar {
 
 		httpServletRequest.setAttribute(_CSS_LAYERS, Boolean.TRUE);
 
-		Set<String> links = _getLinks(httpServletRequest);
-
 		String nonce = ContentSecurityPolicyNonceProviderUtil.getNonceAttribute(
 			httpServletRequest);
 
@@ -99,6 +97,7 @@ public class FragmentAssetsRegistrar {
 			return sb.toString();
 		}
 
+		Set<String> links = _getLinks(httpServletRequest);
 		OutputData outputData = _getOutputData(httpServletRequest);
 
 		for (String styleSheetURL : fragmentAssets.getStyleSheetURLs()) {
@@ -192,10 +191,28 @@ public class FragmentAssetsRegistrar {
 		}
 
 		_add(
-			"fragment-assets-loader",
-			_getLoaderTag(httpServletRequest, nonce), outputData);
+			"fragment-assets-loader", _getLoaderTag(httpServletRequest, nonce),
+			outputData);
 
 		return StringPool.BLANK;
+	}
+
+	/**
+	 * Reads the comma separated experiments of the spike from the
+	 * <code>fragmentAssets</code> parameter of the page request, such as
+	 * <code>css-combined</code>, <code>css-inline</code>, or
+	 * <code>no-modulepreload</code>.
+	 */
+	private static boolean _hasExperiment(
+		String experiment, HttpServletRequest httpServletRequest) {
+
+		HttpServletRequest originalHttpServletRequest =
+			PortalUtil.getOriginalServletRequest(httpServletRequest);
+
+		return ArrayUtil.contains(
+			StringUtil.split(
+				originalHttpServletRequest.getParameter("fragmentAssets")),
+			experiment);
 	}
 
 	private boolean _add(String key, String html, OutputData outputData) {
@@ -245,6 +262,21 @@ public class FragmentAssetsRegistrar {
 			httpServletRequest.getAttribute(_COUNT_PREFIX + name));
 	}
 
+	@SuppressWarnings("unchecked")
+	private Set<String> _getLinks(HttpServletRequest httpServletRequest) {
+		Set<String> links = (Set<String>)httpServletRequest.getAttribute(
+			FragmentAssetsRegistrar.class.getName());
+
+		if (links == null) {
+			links = new LinkedHashSet<>();
+
+			httpServletRequest.setAttribute(
+				FragmentAssetsRegistrar.class.getName(), links);
+		}
+
+		return links;
+	}
+
 	private String _getLoaderTag(
 		HttpServletRequest httpServletRequest, String nonce) {
 
@@ -281,15 +313,15 @@ public class FragmentAssetsRegistrar {
 
 	private String _getPreconnectTag(FragmentAssets.Preconnect preconnect) {
 		return StringBundler.concat(
-			"<link ", preconnect.isCrossOrigin() ? "crossorigin " :
-				StringPool.BLANK,
+			"<link ",
+			preconnect.isCrossOrigin() ? "crossorigin " : StringPool.BLANK,
 			"data-senna-track=\"temporary\" href=\"",
 			HtmlUtil.escapeAttribute(preconnect.getOrigin()),
 			"\" rel=\"preconnect\" />");
 	}
 
 	private String _getPreloadTag(FragmentAssets.Preload preload) {
-		StringBundler sb = new StringBundler(14);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("<link as=\"");
 		sb.append(HtmlUtil.escapeAttribute(preload.getAs()));
@@ -329,44 +361,11 @@ public class FragmentAssetsRegistrar {
 			" rel=\"stylesheet\" />");
 	}
 
-	@SuppressWarnings("unchecked")
-	private Set<String> _getLinks(HttpServletRequest httpServletRequest) {
-		Set<String> links = (Set<String>)httpServletRequest.getAttribute(
-			FragmentAssetsRegistrar.class.getName());
-
-		if (links == null) {
-			links = new LinkedHashSet<>();
-
-			httpServletRequest.setAttribute(
-				FragmentAssetsRegistrar.class.getName(), links);
-		}
-
-		return links;
-	}
-
 	private void _incrementCount(
 		String name, HttpServletRequest httpServletRequest) {
 
 		httpServletRequest.setAttribute(
 			_COUNT_PREFIX + name, _getCount(name, httpServletRequest) + 1);
-	}
-
-	/**
-	 * Reads the comma separated experiments of the spike from the
-	 * <code>fragmentAssets</code> parameter of the page request, such as
-	 * <code>css-combined</code>, <code>css-inline</code>, or
-	 * <code>no-modulepreload</code>.
-	 */
-	private static boolean _hasExperiment(
-		String experiment, HttpServletRequest httpServletRequest) {
-
-		HttpServletRequest originalHttpServletRequest =
-			PortalUtil.getOriginalServletRequest(httpServletRequest);
-
-		return ArrayUtil.contains(
-			StringUtil.split(
-				originalHttpServletRequest.getParameter("fragmentAssets")),
-			experiment);
 	}
 
 	private boolean _isInline(

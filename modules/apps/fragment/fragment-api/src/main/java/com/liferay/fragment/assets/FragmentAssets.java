@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
@@ -251,7 +252,7 @@ public class FragmentAssets {
 		}
 
 		public boolean isAboveTheFold() {
-			return "aboveTheFold".equals(_when);
+			return Objects.equals(_when, "aboveTheFold");
 		}
 
 		public boolean isCrossOrigin() {

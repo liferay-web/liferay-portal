@@ -16,7 +16,11 @@
 					"name": "pageSize",
 					"type": "text",
 					"typeOptions": {
-						"validation": {"max": 60, "min": 3, "type": "number"}
+						"validation": {
+							"max": 60,
+							"min": 3,
+							"type": "number"
+						}
 					}
 				},
 				{
@@ -26,9 +30,18 @@
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"label": "2", "value": "2"},
-							{"label": "3", "value": "3"},
-							{"label": "4", "value": "4"}
+							{
+								"label": "2",
+								"value": "2"
+							},
+							{
+								"label": "3",
+								"value": "3"
+							},
+							{
+								"label": "4",
+								"value": "4"
+							}
 						]
 					}
 				},

@@ -2,10 +2,10 @@
 	"cacheable": true,
 	"configurationPath": "configuration.json",
 	"cssPath": "index.css",
+	"fragmentEntryKey": "fm-pricing-calculator",
 	"htmlPath": "index.html",
 	"icon": "calculator",
 	"jsPath": "index.js",
 	"name": "FM Pricing Calculator",
-	"type": "component",
-	"fragmentEntryKey": "fm-pricing-calculator"
+	"type": "component"
 }

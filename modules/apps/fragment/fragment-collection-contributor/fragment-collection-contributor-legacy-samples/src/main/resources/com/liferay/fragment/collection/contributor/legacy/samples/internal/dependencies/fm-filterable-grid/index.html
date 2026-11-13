@@ -26,15 +26,17 @@
 	[/#list]
 [/#if]
 
-<section class="fm-filterable-grid" style="--fm-filterable-grid-columns: ${configuration.columns};" data-page-size="${configuration.pageSize}">
+<section class="fm-filterable-grid" data-page-size="${configuration.pageSize}" style="--fm-filterable-grid-columns: ${configuration.columns};">
 	<div class="fm-filterable-grid__controls">
 		<label class="fm-filterable-grid__search">
 			<span class="fm-filterable-grid__visually-hidden">Search</span>
+
 			<input class="fm-filterable-grid__input" name="q" placeholder="Search" type="search" />
 		</label>
 
 		<label class="fm-filterable-grid__sort">
 			<span class="fm-filterable-grid__visually-hidden">Sort by</span>
+
 			<select class="fm-filterable-grid__select" name="sort">
 				<option value="relevance">Relevance</option>
 				<option value="title">Title (A-Z)</option>
@@ -50,17 +52,12 @@
 
 	<ul class="fm-filterable-grid__list">
 		[#list items as item]
-			<li
-				class="fm-filterable-grid__item"
-				data-category="${(item.category!"")?html}"
-				data-date="${(item.date!"")?html}"
-				data-level="${(item.level!"")?html}"
-				data-popularity="${(item.popularity!0)?c}"
-				data-title="${(item.title!"")?html}"
-			>
+		<li class="fm-filterable-grid__item" data-category="${(item.category!"")?html}" data-date="${(item.date!"")?html}" data-level="${(item.level!"")?html}" data-popularity="${(item.popularity!0)?c}" data-title="${(item.title!"")?html}">
 				<a class="fm-filterable-grid__card" href="${(item.url!"#")?html}">
 					<span class="fm-filterable-grid__category">${(item.category!"")?html}</span>
+
 					<h3 class="fm-filterable-grid__title">${(item.title!"")?html}</h3>
+
 					<span class="fm-filterable-grid__meta">${(item.level!"")?html} &middot; <time datetime="${(item.date!"")?html}">${(item.date!"")?html}</time></span>
 				</a>
 			</li>
@@ -69,7 +66,9 @@
 
 	<nav aria-label="Pagination" class="fm-filterable-grid__pager" hidden>
 		<button class="fm-filterable-grid__page-button" data-direction="-1" type="button">Previous</button>
+
 		<span class="fm-filterable-grid__page-label"></span>
+
 		<button class="fm-filterable-grid__page-button" data-direction="1" type="button">Next</button>
 	</nav>
 </section>

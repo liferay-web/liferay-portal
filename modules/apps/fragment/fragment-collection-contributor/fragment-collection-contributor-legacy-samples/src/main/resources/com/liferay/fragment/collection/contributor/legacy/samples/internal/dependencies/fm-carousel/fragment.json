@@ -2,10 +2,10 @@
 	"cacheable": true,
 	"configurationPath": "configuration.json",
 	"cssPath": "index.css",
+	"fragmentEntryKey": "fm-carousel",
 	"htmlPath": "index.html",
 	"icon": "slides",
 	"jsPath": "index.js",
 	"name": "FM Carousel",
-	"type": "component",
-	"fragmentEntryKey": "fm-carousel"
+	"type": "component"
 }

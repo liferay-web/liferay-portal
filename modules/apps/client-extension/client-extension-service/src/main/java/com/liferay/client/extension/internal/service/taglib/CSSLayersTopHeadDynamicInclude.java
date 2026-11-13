@@ -95,8 +95,7 @@ public class CSSLayersTopHeadDynamicInclude implements DynamicInclude {
 			// Spike experiment: load Clay unlayered to isolate the cost of the
 			// layered import
 
-			printWriter.print(
-				"<link data-senna-track=\"temporary\" href=\"");
+			printWriter.print("<link data-senna-track=\"temporary\" href=\"");
 			printWriter.print(
 				HtmlUtil.escapeAttribute(themeDisplay.getClayCSSURL()));
 			printWriter.print("\" id=\"liferayAUICSS\"");
@@ -133,16 +132,6 @@ public class CSSLayersTopHeadDynamicInclude implements DynamicInclude {
 		dynamicIncludeRegistry.register("/html/common/themes/top_head.jsp#pre");
 	}
 
-	private boolean _isClayLink(HttpServletRequest httpServletRequest) {
-		HttpServletRequest originalHttpServletRequest =
-			PortalUtil.getOriginalServletRequest(httpServletRequest);
-
-		return ArrayUtil.contains(
-			StringUtil.split(
-				originalHttpServletRequest.getParameter("fragmentAssets")),
-			"clay-link");
-	}
-
 	private String _encodeURL(String url) {
 
 		// Percent-encode instead of CSS escaping so that preload scanners can
@@ -151,11 +140,20 @@ public class CSSLayersTopHeadDynamicInclude implements DynamicInclude {
 		return StringUtil.replace(
 			url,
 			new String[] {
-				StringPool.QUOTE, StringPool.BACK_SLASH,
-				StringPool.LESS_THAN, StringPool.GREATER_THAN,
-				StringPool.NEW_LINE, StringPool.RETURN
+				StringPool.QUOTE, StringPool.BACK_SLASH, StringPool.LESS_THAN,
+				StringPool.GREATER_THAN, StringPool.NEW_LINE, StringPool.RETURN
 			},
 			new String[] {"%22", "%5C", "%3C", "%3E", "%0A", "%0D"});
+	}
+
+	private boolean _isClayLink(HttpServletRequest httpServletRequest) {
+		HttpServletRequest originalHttpServletRequest =
+			PortalUtil.getOriginalServletRequest(httpServletRequest);
+
+		return ArrayUtil.contains(
+			StringUtil.split(
+				originalHttpServletRequest.getParameter("fragmentAssets")),
+			"clay-link");
 	}
 
 }

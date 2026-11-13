@@ -5,9 +5,9 @@
 
 package com.liferay.fragment.contributor;
 
-import com.liferay.fragment.assets.FragmentAssets;
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.fragment.assets.FragmentAssets;
 import com.liferay.fragment.model.FragmentComposition;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader;

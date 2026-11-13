@@ -16,10 +16,8 @@ import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.URLUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.io.InputStream;
 
 import java.net.URI;
 import java.net.URL;
@@ -141,9 +139,7 @@ public class CETFragmentCollectionContributorTracker {
 				continue;
 			}
 
-			try (InputStream inputStream = entryURL.openStream()) {
-				return StringUtil.read(inputStream);
-			}
+			return URLUtil.toString(entryURL);
 		}
 
 		return null;
@@ -197,6 +193,13 @@ public class CETFragmentCollectionContributorTracker {
 			);
 		}
 
+		private String _getMessage(String action) {
+			return StringBundler.concat(
+				"Unable to ", action, " ", _fragmentsJSONURL,
+				" of fragment collection client extension ",
+				_fragmentCollectionCET.getExternalReferenceCode());
+		}
+
 		private void _open() {
 			try {
 				String json = _read(_fragmentsJSONURL);
@@ -238,13 +241,6 @@ public class CETFragmentCollectionContributorTracker {
 						}
 					});
 			}
-		}
-
-		private String _getMessage(String action) {
-			return StringBundler.concat(
-				"Unable to ", action, " ", _fragmentsJSONURL,
-				" of fragment collection client extension ",
-				_fragmentCollectionCET.getExternalReferenceCode());
 		}
 
 		private synchronized void _register(String json) throws Exception {

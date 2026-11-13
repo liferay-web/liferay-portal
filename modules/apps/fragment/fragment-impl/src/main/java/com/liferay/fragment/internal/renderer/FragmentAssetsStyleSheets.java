@@ -51,7 +51,9 @@ public class FragmentAssetsStyleSheets {
 	public String put(String content) {
 		String hash = StringUtil.toLowerCase(
 			DigesterUtil.digestHex(DigesterUtil.SHA_256, content)
-		).substring(0, 16);
+		).substring(
+			0, 16
+		);
 
 		_combinedStyleSheets.putIfAbsent(hash, content);
 

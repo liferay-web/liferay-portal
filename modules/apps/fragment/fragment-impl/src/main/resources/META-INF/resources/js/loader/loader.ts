@@ -85,6 +85,7 @@ async function hydrate(
 
 	try {
 		const module = await import(
+
 			/* webpackIgnore: true */ fragmentElement.dataset
 				.lfrFragmentModule as string
 		);
@@ -161,6 +162,7 @@ function schedule(fragmentElement: HTMLElement) {
 		}
 	}
 	else if (hydrateStrategy === 'interaction') {
+
 		// Hovering or pressing starts hydration, but the click that follows
 		// usually arrives before the module is ready, so clicks are held and
 		// the last one is replayed once the instance is hydrated
@@ -237,7 +239,7 @@ function start() {
 				}
 			});
 
-			removed = removed || mutation.removedNodes.length > 0;
+			removed = removed || !!mutation.removedNodes.length;
 		}
 
 		if (removed) {

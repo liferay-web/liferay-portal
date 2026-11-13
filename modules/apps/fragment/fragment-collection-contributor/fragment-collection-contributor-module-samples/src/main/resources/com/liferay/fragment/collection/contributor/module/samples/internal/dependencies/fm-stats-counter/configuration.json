@@ -42,9 +42,18 @@
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"label": "Brand 1", "value": "var(--brand-color-1, #0b5fff)"},
-							{"label": "Brand 2", "value": "var(--brand-color-2, #7414ff)"},
-							{"label": "Inherit", "value": "currentColor"}
+							{
+								"label": "Brand 1",
+								"value": "var(--brand-color-1, #0b5fff)"
+							},
+							{
+								"label": "Brand 2",
+								"value": "var(--brand-color-2, #7414ff)"
+							},
+							{
+								"label": "Inherit",
+								"value": "currentColor"
+							}
 						]
 					}
 				}

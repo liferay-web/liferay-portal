@@ -9,10 +9,22 @@
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"label": "USD", "value": "USD"},
-							{"label": "EUR", "value": "EUR"},
-							{"label": "GBP", "value": "GBP"},
-							{"label": "JPY", "value": "JPY"}
+							{
+								"label": "USD",
+								"value": "USD"
+							},
+							{
+								"label": "EUR",
+								"value": "EUR"
+							},
+							{
+								"label": "GBP",
+								"value": "GBP"
+							},
+							{
+								"label": "JPY",
+								"value": "JPY"
+							}
 						]
 					}
 				},
@@ -58,9 +70,18 @@
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"label": "Brand 1", "value": "var(--brand-color-1, #0b5fff)"},
-							{"label": "Brand 2", "value": "var(--brand-color-2, #7414ff)"},
-							{"label": "Success", "value": "var(--success, #287d3c)"}
+							{
+								"label": "Brand 1",
+								"value": "var(--brand-color-1, #0b5fff)"
+							},
+							{
+								"label": "Brand 2",
+								"value": "var(--brand-color-2, #7414ff)"
+							},
+							{
+								"label": "Success",
+								"value": "var(--success, #287d3c)"
+							}
 						]
 					}
 				}

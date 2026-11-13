@@ -44,7 +44,8 @@ public class CETFragmentCollectionContributor
 	implements FragmentCollectionContributor {
 
 	public CETFragmentCollectionContributor(
-		String assetsBaseURL, FragmentEntryLocalService fragmentEntryLocalService,
+		String assetsBaseURL,
+		FragmentEntryLocalService fragmentEntryLocalService,
 		JSONObject fragmentsJSONObject) {
 
 		JSONObject collectionJSONObject = fragmentsJSONObject.getJSONObject(
@@ -62,16 +63,16 @@ public class CETFragmentCollectionContributor
 
 		_name = collectionJSONObject.getString("name", _fragmentCollectionKey);
 
-		String origin = _getCrossOrigin(assetsBaseURL);
-		UnaryOperator<String> urlResolver = FragmentAssets.baseURLResolver(
-			assetsBaseURL);
-
 		JSONArray fragmentsJSONArray = fragmentsJSONObject.getJSONArray(
 			"fragments");
 
 		if (fragmentsJSONArray == null) {
 			return;
 		}
+
+		String origin = _getCrossOrigin(assetsBaseURL);
+		UnaryOperator<String> urlResolver = FragmentAssets.baseURLResolver(
+			assetsBaseURL);
 
 		for (int i = 0; i < fragmentsJSONArray.length(); i++) {
 			JSONObject fragmentJSONObject = fragmentsJSONArray.getJSONObject(i);
@@ -219,8 +220,8 @@ public class CETFragmentCollectionContributor
 		}
 
 		for (int i = 0; i < preconnectJSONArray.length(); i++) {
-			JSONObject preconnectJSONObject =
-				preconnectJSONArray.getJSONObject(i);
+			JSONObject preconnectJSONObject = preconnectJSONArray.getJSONObject(
+				i);
 
 			if (Objects.equals(
 					origin, preconnectJSONObject.getString("origin"))) {
@@ -264,8 +265,7 @@ public class CETFragmentCollectionContributor
 		return assetsBaseURL.substring(0, index);
 	}
 
-	private final Map<String, FragmentAssets> _fragmentAssets =
-		new HashMap<>();
+	private final Map<String, FragmentAssets> _fragmentAssets = new HashMap<>();
 	private final String _fragmentCollectionKey;
 	private final Map<Integer, List<FragmentEntry>> _fragmentEntries =
 		new HashMap<>();

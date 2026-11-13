@@ -11,16 +11,10 @@
 >
 	<div class="fm-carousel__viewport" tabindex="0">
 		[#list 1..slideCount as i]
-			<div
-				aria-label="${i} of ${slideCount}"
-				aria-roledescription="slide"
-				class="fm-carousel__slide"
-				id="fm-carousel-${fragmentEntryLinkNamespace}-slide-${i}"
-				role="group"
-				style="--fm-carousel-slide-hue: ${hues[(i - 1) % hues?size]};"
-			>
+		<div aria-label="${i} of ${slideCount}" aria-roledescription="slide" class="fm-carousel__slide" id="fm-carousel-${fragmentEntryLinkNamespace}-slide-${i}" role="group" style="--fm-carousel-slide-hue: ${hues[(i - 1) % hues?size]};">
 				<div class="fm-carousel__slide-body">
 					<h3 class="fm-carousel__slide-title" data-lfr-editable-id="slide-title-${i}" data-lfr-editable-type="text">Slide ${i}</h3>
+
 					<div class="fm-carousel__slide-text" data-lfr-editable-id="slide-text-${i}" data-lfr-editable-type="rich-text"><p>Composable experiences that scale with your business.</p></div>
 				</div>
 			</div>

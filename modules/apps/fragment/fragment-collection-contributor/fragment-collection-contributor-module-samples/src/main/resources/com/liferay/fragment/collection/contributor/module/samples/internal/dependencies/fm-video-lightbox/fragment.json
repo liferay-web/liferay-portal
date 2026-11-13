@@ -22,7 +22,8 @@
 				"origin": "https://i.ytimg.com"
 			}
 		],
-		"preload": [],
+		"preload": [
+		],
 		"version": 1
 	},
 	"cacheable": true,

@@ -15,8 +15,10 @@
 			"hydrate": "visible",
 			"module": "dist/fm-stats-counter.48dfb246.js"
 		},
-		"preconnect": [],
-		"preload": [],
+		"preconnect": [
+		],
+		"preload": [
+		],
 		"version": 1
 	},
 	"cacheable": true,

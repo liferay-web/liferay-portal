@@ -14,8 +14,10 @@
 			"hydrate": "visible",
 			"module": "dist/fm-filterable-grid.de58c2c5.js"
 		},
-		"preconnect": [],
-		"preload": [],
+		"preconnect": [
+		],
+		"preload": [
+		],
 		"version": 1
 	},
 	"cacheable": true,

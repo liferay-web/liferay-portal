@@ -13,10 +13,10 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
@@ -51,7 +51,9 @@ public class ModuleSamplesOSGiCommands {
 
 		long classNameId = _portal.getClassNameId(Layout.class);
 
-		for (Layout curLayout : new Layout[] {layout, layout.fetchDraftLayout()}) {
+		for (Layout curLayout :
+				new Layout[] {layout, layout.fetchDraftLayout()}) {
+
 			if (curLayout == null) {
 				continue;
 			}
@@ -80,8 +82,8 @@ public class ModuleSamplesOSGiCommands {
 		for (CET cet :
 				_cetManager.getCETs(
 					group.getCompanyId(), null,
-					ClientExtensionEntryConstants.TYPE_THEME_CSS, Pagination.of(1, 100),
-					(Sort)null)) {
+					ClientExtensionEntryConstants.TYPE_THEME_CSS,
+					Pagination.of(1, 100), (Sort)null)) {
 
 			sb.append(StringPool.SPACE);
 			sb.append(cet.getExternalReferenceCode());

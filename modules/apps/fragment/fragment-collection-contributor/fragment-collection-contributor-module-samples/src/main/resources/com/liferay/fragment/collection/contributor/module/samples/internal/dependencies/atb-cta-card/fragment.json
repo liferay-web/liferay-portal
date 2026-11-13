@@ -6,8 +6,10 @@
 				"layer": "fragments.atb-cta-card"
 			}
 		],
-		"preconnect": [],
-		"preload": [],
+		"preconnect": [
+		],
+		"preload": [
+		],
 		"version": 1
 	},
 	"cacheable": true,
