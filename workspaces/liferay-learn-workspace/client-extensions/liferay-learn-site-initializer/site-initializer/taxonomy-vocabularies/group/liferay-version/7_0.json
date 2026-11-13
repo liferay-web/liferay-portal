@@ -1,0 +1,12 @@
+{
+	"description": "7.0",
+	"description_i18n": {
+		"en_US": "7.0"
+	},
+	"externalReferenceCode": "LIFERAY_VERSION_7_0",
+	"name": "7.0",
+	"name_i18n": {
+		"en_US": "7.0"
+	},
+	"viewableBy": "Anyone"
+}

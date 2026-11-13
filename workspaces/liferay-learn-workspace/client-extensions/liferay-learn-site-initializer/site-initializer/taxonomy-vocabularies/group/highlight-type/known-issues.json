@@ -1,0 +1,12 @@
+{
+	"description": "Known Issues",
+	"description_i18n": {
+		"en_US": "Known Issues"
+	},
+	"externalReferenceCode": "HIGHLIGHT_TYPE_KNOWN_ISSUES",
+	"name": "Known Issues",
+	"name_i18n": {
+		"en_US": "Known Issues"
+	},
+	"viewableBy": "Anyone"
+}

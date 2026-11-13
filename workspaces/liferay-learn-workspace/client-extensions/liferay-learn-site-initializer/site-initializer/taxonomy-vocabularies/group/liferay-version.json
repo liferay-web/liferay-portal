@@ -1,0 +1,12 @@
+{
+	"description": "Liferay Version",
+	"description_i18n": {
+		"en_US": "Liferay Version"
+	},
+	"externalReferenceCode": "LIFERAY_VERSION",
+	"name": "Liferay Version",
+	"name_i18n": {
+		"en_US": "Liferay Version"
+	},
+	"viewableBy": "Anyone"
+}
