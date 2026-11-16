@@ -5,12 +5,15 @@
 
 package com.liferay.portal.action;
 
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.layout.LayoutResponseHeaderContributor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.login.AuthLoginGroupSettingsUtil;
@@ -20,6 +23,7 @@ import com.liferay.portal.kernel.model.LayoutType;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.module.util.SystemBundleUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.PortletContainerUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -449,6 +453,9 @@ public class LayoutAction implements Action {
 
 					return null;
 				}
+
+				_contributeResponseHeaders(
+					httpServletRequest, httpServletResponse, layout);
 			}
 
 			return actionMapping.getActionForward("portal.layout");
@@ -483,6 +490,31 @@ public class LayoutAction implements Action {
 		}
 	}
 
+	private void _contributeResponseHeaders(
+		HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse, Layout layout) {
+
+		for (LayoutResponseHeaderContributor layoutResponseHeaderContributor :
+				_layoutResponseHeaderContributors) {
+
+			try {
+				layoutResponseHeaderContributor.contribute(
+					httpServletRequest, httpServletResponse, layout);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Unable to contribute response headers for layout " +
+						layout.getPlid(),
+					exception);
+			}
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(LayoutAction.class);
+
+	private static final ServiceTrackerList<LayoutResponseHeaderContributor>
+		_layoutResponseHeaderContributors = ServiceTrackerListFactory.open(
+			SystemBundleUtil.getBundleContext(),
+			LayoutResponseHeaderContributor.class);
 
 }
