@@ -16,6 +16,7 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.util.FileEntryHttpHeaderCustomizerUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
@@ -108,11 +109,17 @@ public class AMServlet extends HttpServlet {
 						HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE;
 				}
 
+				FileEntry fileEntry = _dlAppLocalService.getFileEntry(
+					fileEntryId);
+
 				httpServletResponse.setHeader(
 					HttpHeaders.CACHE_CONTROL,
 					FileEntryHttpHeaderCustomizerUtil.getHttpHeaderValue(
-						_dlAppLocalService.getFileEntry(fileEntryId),
-						HttpHeaders.CACHE_CONTROL, cacheControlValue));
+						fileEntry, HttpHeaders.CACHE_CONTROL,
+						cacheControlValue));
+
+				FileEntryHttpHeaderCustomizerUtil.customizeHttpHeaders(
+					fileEntry, httpServletRequest, httpServletResponse);
 			}
 
 			Long contentLength = adaptiveMedia.getValue(

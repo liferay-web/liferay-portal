@@ -1059,6 +1059,9 @@ public class WebServerServlet extends HttpServlet {
 				fileEntry, HttpHeaders.CACHE_CONTROL,
 				HttpHeaders.CACHE_CONTROL_PRIVATE_VALUE));
 
+		FileEntryHttpHeaderCustomizerUtil.customizeHttpHeaders(
+			fileEntry, httpServletRequest, httpServletResponse);
+
 		String contentDispositionType = null;
 
 		if (ServletResponseUtil.isBrowserExecutableContentType(
@@ -1299,6 +1302,9 @@ public class WebServerServlet extends HttpServlet {
 			FileEntryHttpHeaderCustomizerUtil.getHttpHeaderValue(
 				fileEntry, HttpHeaders.CACHE_CONTROL, cacheControlValue));
 
+		FileEntryHttpHeaderCustomizerUtil.customizeHttpHeaders(
+			fileEntry, httpServletRequest, httpServletResponse);
+
 		// Everything that could refuse this download has already refused it
 		// and only the transfer is left, so the download is granted here
 
@@ -1418,6 +1424,9 @@ public class WebServerServlet extends HttpServlet {
 			FileEntryHttpHeaderCustomizerUtil.getHttpHeaderValue(
 				fileEntry, HttpHeaders.CACHE_CONTROL,
 				HttpHeaders.CACHE_CONTROL_PRIVATE_VALUE));
+
+		FileEntryHttpHeaderCustomizerUtil.customizeHttpHeaders(
+			fileEntry, httpServletRequest, httpServletResponse);
 
 		boolean download = ParamUtil.getBoolean(httpServletRequest, "download");
 
