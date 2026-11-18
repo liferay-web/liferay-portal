@@ -1,0 +1,3 @@
+Bundle-Name: Liferay CDN Implementation
+Bundle-SymbolicName: com.liferay.cdn.impl
+Bundle-Version: 1.0.0
