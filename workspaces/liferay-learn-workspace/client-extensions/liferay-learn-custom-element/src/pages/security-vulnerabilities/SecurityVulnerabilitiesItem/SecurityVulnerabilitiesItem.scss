@@ -1,0 +1,37 @@
+.sv-item {
+	.sv-badge {
+		background-color: var(--color-state-info-lighten-2, #e6ebf5);
+		color: var(--color-state-info-darken-2, #1c3667);
+		font-size: 11px;
+		line-height: 1.4;
+	}
+
+	.sv-breadcrumbs {
+		font-size: var(--font-size-sm);
+
+		a {
+			color: var(--color-neutral-0);
+		}
+	}
+
+	.sv-item-details {
+		background-color: var(--color-neutral-1);
+		border-radius: var(--border-radius-lg);
+	}
+
+	.sv-item-header {
+		background: linear-gradient(
+			90deg,
+			var(--color-brand-primary-darken-5, #00256c) 20%,
+			var(--color-brand-primary-darken-3, #003eb3) 40%,
+			var(--color-brand-primary, #0b5fff) 60%,
+			var(--color-brand-primary-lighten-2, #00a4fa) 80%
+		);
+		border-radius: var(--border-radius-lg);
+		color: var(--color-neutral-0);
+
+		.sv-gradient {
+			right: 0;
+		}
+	}
+}

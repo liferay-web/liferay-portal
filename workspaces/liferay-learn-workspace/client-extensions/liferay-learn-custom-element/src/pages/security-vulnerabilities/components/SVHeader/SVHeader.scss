@@ -1,0 +1,23 @@
+.sv-header {
+	gap: 32px;
+}
+
+.sv-header-description {
+	line-height: 24px;
+	max-width: 800px;
+}
+
+.sv-header-icon {
+	height: 48px;
+	width: 48px;
+}
+
+.sv-header-title {
+	font-size: 48px;
+	line-height: 57.6px;
+
+	@media (max-width: 767.98px) {
+		font-size: 32px;
+		line-height: 40px;
+	}
+}

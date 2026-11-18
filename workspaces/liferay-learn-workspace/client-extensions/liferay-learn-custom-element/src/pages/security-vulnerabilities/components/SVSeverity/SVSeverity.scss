@@ -1,0 +1,22 @@
+.sv-severity {
+	color: var(--color-state-neutral-darken-2, #54555f);
+}
+
+.sv-severity-critical {
+	background-color: var(--color-state-error-lighten-2, #fbe3e3);
+	color: var(--color-state-error-darken-2, #830c0c);
+}
+
+.sv-severity-high {
+	background-color: var(--color-state-warning-lighten-2, #f7eae0);
+	color: var(--color-state-warning-darken-2, #6f3000);
+}
+
+.sv-severity-low {
+	background-color: var(--color-state-neutral-lighten-2, #e1e1e4);
+}
+
+.sv-severity-medium {
+	background-color: var(--color-state-info-lighten-2, #e6ebf5);
+	color: var(--color-state-info-darken-2, #1c3667);
+}

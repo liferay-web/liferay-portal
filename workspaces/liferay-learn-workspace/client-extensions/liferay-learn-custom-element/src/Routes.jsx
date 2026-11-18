@@ -9,8 +9,8 @@ const lazyRoutes = {
 	'certification-list': React.lazy(() => import('./components/Certification/CertificationList')),
 	'course-list': React.lazy(() => import('./components/Course/CoursesList')),
 	'landing-page-view': React.lazy(() => import('./components/LandingPageView')),
-	'learning-path-list': React.lazy(() => import('./components/LearningPath/LearningPathList')
-	),
+	'learning-path-list': React.lazy(() => import('./components/LearningPath/LearningPathList')),
+	'security-vulnerabilities': React.lazy(() => import('./pages/security-vulnerabilities/SecurityVulnerabilitiesRouter')),
 };
 
 export default function Routes({path, properties}) {
