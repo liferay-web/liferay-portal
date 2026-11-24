@@ -73,6 +73,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -99,7 +100,9 @@ import org.apache.http.util.EntityUtils;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -257,9 +260,9 @@ public class Main {
 
 		_addFileNames(_docsDirName);
 
-		_getGitDiff(baseDir);
-
 		_initFlexmark();
+
+		_getGitDiff(baseDir);
 
 		if (_offline) {
 			_globalSiteId = 0;
@@ -376,6 +379,14 @@ public class Main {
 						!_diffFileNames.contains(relativeFileName) &&
 						!_skipDiffCheck) {
 
+						if (_updateInheritedPermissions(
+								fileName, siteStructuredContent)) {
+
+							updatedStructuredContentCount++;
+
+							continue;
+						}
+
 						System.out.println(
 							"Skipping structured content (no diffs) " +
 								structuredContent.getFriendlyUrlPath());
@@ -387,6 +398,14 @@ public class Main {
 							DigestUtils.md5Hex(new FileInputStream(fileName)),
 							_getMD5Hex(siteStructuredContent)) &&
 						!_skipDiffCheck) {
+
+						if (_updateInheritedPermissions(
+								fileName, siteStructuredContent)) {
+
+							updatedStructuredContentCount++;
+
+							continue;
+						}
 
 						System.out.println(
 							"Skipping structured content (same md5Hex) " +
@@ -725,6 +744,19 @@ public class Main {
 		return dirNames.toArray(new String[0]);
 	}
 
+	private Map<String, Object> _getFrontMatterData(String text) {
+		if (text == null) {
+			return null;
+		}
+
+		SnakeYamlFrontMatterVisitor snakeYamlFrontMatterVisitor =
+			new SnakeYamlFrontMatterVisitor();
+
+		snakeYamlFrontMatterVisitor.visit(_parser.parse(text));
+
+		return snakeYamlFrontMatterVisitor.getData();
+	}
+
 	private void _getGitDiff(File dir) throws Exception {
 		Git git = Git.open(new File(dir, ".git"));
 
@@ -768,6 +800,19 @@ public class Main {
 			}
 
 			_diffFileNames.add("/" + newPath);
+
+			Map<String, Object> newData = _getFrontMatterData(
+				_getText(repository, diff.getNewId()));
+			Map<String, Object> oldData = _getFrontMatterData(
+				_getText(repository, diff.getOldId()));
+
+			if (Objects.equals(
+					_getVisibility(newData), _getVisibility(oldData))) {
+
+				continue;
+			}
+
+			_visibilityDiffFileNames.add("/" + newPath);
 		}
 	}
 
@@ -951,18 +996,10 @@ public class Main {
 			}
 		}
 
-		SnakeYamlFrontMatterVisitor snakeYamlFrontMatterVisitor =
-			new SnakeYamlFrontMatterVisitor();
+		Map<String, Object> data = _getVisibilityFrontMatterData(
+			new File(fileName));
 
-		File file = new File(fileName);
-
-		snakeYamlFrontMatterVisitor.visit(
-			_parser.parse(
-				FileUtils.readFileToString(file, StandardCharsets.UTF_8)));
-
-		Map<String, Object> data = snakeYamlFrontMatterVisitor.getData();
-
-		if ((data == null) || !data.containsKey("visibility")) {
+		if (data == null) {
 			permissions.add(
 				new Permission() {
 					{
@@ -1172,6 +1209,27 @@ public class Main {
 		return taxonomyCategoryIds.toArray(new Long[0]);
 	}
 
+	private String _getText(
+			Repository repository, AbbreviatedObjectId abbreviatedObjectId)
+		throws Exception {
+
+		if ((abbreviatedObjectId == null) ||
+			!abbreviatedObjectId.isComplete()) {
+
+			return null;
+		}
+
+		ObjectId objectId = abbreviatedObjectId.toObjectId();
+
+		if (objectId.equals(ObjectId.zeroId())) {
+			return null;
+		}
+
+		ObjectLoader objectLoader = repository.open(objectId);
+
+		return new String(objectLoader.getBytes(), StandardCharsets.UTF_8);
+	}
+
 	private String _getTitle(Node node) {
 		if (node instanceof Heading) {
 			Heading heading = (Heading)node;
@@ -1226,6 +1284,55 @@ public class Main {
 		}
 
 		return uuid.toString();
+	}
+
+	private Object _getVisibility(Map<String, Object> data) {
+		if (data == null) {
+			return null;
+		}
+
+		return data.get("visibility");
+	}
+
+	private Map<String, Object> _getVisibilityFrontMatterData(File file)
+		throws Exception {
+
+		Set<String> filePaths = new HashSet<>();
+
+		while ((file != null) && filePaths.add(file.getPath())) {
+			Map<String, Object> data = _getFrontMatterData(
+				FileUtils.readFileToString(file, StandardCharsets.UTF_8));
+
+			if ((data != null) && data.containsKey("visibility")) {
+				return data;
+			}
+
+			file = _getParentMarkdownFile(file);
+		}
+
+		return null;
+	}
+
+	private boolean _hasParentVisibilityDiff(File file) throws Exception {
+		if (_visibilityDiffFileNames.isEmpty()) {
+			return false;
+		}
+
+		Set<String> filePaths = new HashSet<>();
+
+		file = _getParentMarkdownFile(file);
+
+		while ((file != null) && filePaths.add(file.getPath())) {
+			if (_visibilityDiffFileNames.contains(
+					StringUtil.removeSubstring(file.getPath(), _baseDirName))) {
+
+				return true;
+			}
+
+			file = _getParentMarkdownFile(file);
+		}
+
+		return false;
 	}
 
 	private void _initFlexmark() {
@@ -1805,10 +1912,29 @@ public class Main {
 		return structuredContent;
 	}
 
-	private void _warn(String warningMessage) {
-		System.out.println(warningMessage);
+	private boolean _updateInheritedPermissions(
+			String fileName, StructuredContent siteStructuredContent)
+		throws Exception {
 
-		_warningMessages.add(warningMessage);
+		if (!_hasParentVisibilityDiff(new File(fileName))) {
+			return false;
+		}
+
+		System.out.println(
+			"Updating structured content permissions " +
+				siteStructuredContent.getFriendlyUrlPath());
+
+		_structuredContentResource.putStructuredContentPermissionsPage(
+			siteStructuredContent.getId(),
+			_getPermissions(fileName, siteStructuredContent.getId()));
+
+		return true;
+	}
+
+	private void _warn(String warningMessage) {
+		if (_warningMessages.add(warningMessage)) {
+			System.out.println(warningMessage);
+		}
 	}
 
 	private void _write(String content, String dirName, File markdownFile)
@@ -1856,7 +1982,8 @@ public class Main {
 	private final JSONObject _taxonomyCategoriesJSONObject = new JSONObject();
 	private TaxonomyCategoryResource _taxonomyCategoryResource;
 	private TaxonomyVocabularyResource _taxonomyVocabularyResource;
-	private final List<String> _warningMessages = new ArrayList<>();
+	private final Set<String> _visibilityDiffFileNames = new HashSet<>();
+	private final Set<String> _warningMessages = new LinkedHashSet<>();
 	private final Yaml _yaml = new Yaml();
 
 	private class SnakeYamlFrontMatterVisitor
