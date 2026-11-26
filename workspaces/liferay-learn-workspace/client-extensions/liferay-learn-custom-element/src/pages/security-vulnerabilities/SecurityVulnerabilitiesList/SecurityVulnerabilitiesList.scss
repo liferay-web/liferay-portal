@@ -1,0 +1,51 @@
+.sv-list {
+	.cloud-lock-icon {
+		background-color: var(--color-brand-primary-lighten-5, #e7efff);
+		border-radius: 10px;
+		height: 48px;
+		width: 48px;
+	}
+
+	.sv-body-container {
+		max-width: 1600px;
+	}
+
+	.sv-list-header {
+		background: linear-gradient(
+			180deg,
+			var(--color-brand-primary-darken-5, #00256c) 5.72%,
+			var(--color-brand-primary-darken-3, #003eb3) 26.08%,
+			var(--color-brand-primary, #0b5fff) 44.48%,
+			var(--color-brand-primary-lighten-2, #00a4fa) 64.33%,
+			color-mix(
+					in srgb,
+					var(--color-brand-primary-lighten-2, #2eb7ff) 80%,
+					transparent
+				)
+				77.33%,
+			color-mix(in srgb, var(--color-neutral-0, #fff) 50%, transparent)
+				96.94%
+		);
+		min-height: 440px;
+
+		.sv-gradient {
+			right: 0;
+		}
+
+		.sv-search-container {
+			max-width: 1600px;
+		}
+	}
+}
+
+@media (max-width: 991.98px) {
+	.sv-table-content {
+		> .sv-filter-column {
+			padding: 24px 28px;
+		}
+
+		> .sv-results-column {
+			padding: 24px 12px;
+		}
+	}
+}

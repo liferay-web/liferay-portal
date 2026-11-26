@@ -1,0 +1,37 @@
+.sv-structured-data {
+	width: 100%;
+
+	table {
+		width: 100%;
+	}
+
+	tbody tr:hover {
+		background-color: var(--color-action-primary-hover-10, #edf3fe);
+	}
+
+	td {
+		border-width: 0;
+		color: var(--color-neutral-8, #54555f);
+	}
+
+	td,
+	th {
+		padding: var(--spacer-3);
+
+		&:first-child {
+			border-radius: 4px 0 0 4px !important;
+		}
+
+		&:last-child {
+			border-radius: 0 4px 4px 0 !important;
+		}
+	}
+
+	thead,
+	.confluenceTh {
+		background-color: var(--color-neutral-1, #f7f7f8);
+		color: var(--color-neutral-7, #6c6c75);
+		font-size: 14px;
+		font-weight: 600;
+	}
+}

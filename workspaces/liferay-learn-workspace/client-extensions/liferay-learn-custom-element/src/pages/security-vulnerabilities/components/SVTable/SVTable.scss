@@ -1,0 +1,27 @@
+.sv-table {
+	td,
+	th {
+		white-space: normal;
+	}
+
+	.be-header-label {
+		color: var(--color-neutral-8, #54555f);
+	}
+
+	.sv-name {
+		color: var(--color-action-primary-default, #0b5fff);
+	}
+
+	.sv-priority-summary-column {
+		min-width: 280px;
+	}
+
+	.sv-row {
+		cursor: pointer;
+	}
+
+	.sv-severity {
+		font-size: var(--font-size-sm);
+		min-width: var(--spacer-6);
+	}
+}

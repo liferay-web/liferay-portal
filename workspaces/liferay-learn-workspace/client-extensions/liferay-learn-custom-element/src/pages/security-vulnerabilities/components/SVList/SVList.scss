@@ -1,0 +1,48 @@
+.sv-list-items {
+	.sv-list-item {
+		border-radius: 4px;
+		color: var(--color-neutral-9, #3f404b);
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		font-size: 12px;
+		gap: 4px;
+		line-height: 16px;
+		padding: 12px;
+
+		&:hover {
+			background-color: var(--color-action-primary-hover-10, #edf3fe);
+		}
+
+		+ .sv-list-item {
+			margin-top: 24px;
+		}
+	}
+
+	.sv-list-item-details {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.sv-list-item-label {
+		color: var(--color-neutral-7, #6b6c7e);
+		font-weight: 600;
+	}
+
+	.sv-name {
+		color: var(--color-action-primary-default, #0b5fff);
+	}
+
+	.sv-severity {
+		border-radius: 4px !important;
+		font-size: 11px;
+		line-height: 16px;
+		padding: 0 6px !important;
+	}
+
+	.sv-summary {
+		font-size: 16px;
+		line-height: 24px;
+	}
+}
