@@ -14,6 +14,7 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.ByteArrayInputStream;
@@ -161,6 +162,56 @@ public class LearnRestController extends BaseRestController {
 					"objectFolderItems"
 				).toList(),
 				this::_toMap),
+			HttpStatus.OK);
+	}
+
+	@GetMapping("/my-certifications")
+	@ResponseBody
+	public ResponseEntity<Object> getMyCertifications(
+		@AuthenticationPrincipal Jwt jwt) {
+
+		if (jwt == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		Map<String, Object> claims = jwt.getClaims();
+
+		JSONObject userAccountJSONObject = new JSONObject(
+			get(
+				_getAuthorization(),
+				UriComponentsBuilder.fromPath(
+					"/o/headless-admin-user/v1.0/user-accounts/" +
+						GetterUtil.getLong(claims.get("sub"))
+				).queryParam(
+					"fields", "emailAddress"
+				).build(
+				).toUri()));
+
+		String emailAddress = userAccountJSONObject.getString("emailAddress");
+
+		return new ResponseEntity<>(
+			new JSONObject(
+				get(
+					_getAuthorization(),
+					UriComponentsBuilder.fromPath(
+						"/o/c/p2s3examresults"
+					).queryParam(
+						"fields",
+						"date,emailAddress,firstName,id,lastName,result," +
+							"testName"
+					).queryParam(
+						"filter",
+						StringBundler.concat(
+							"emailAddress eq '",
+							StringUtil.replace(emailAddress, '\'', "''"),
+							"' and result eq 'pass'")
+					).queryParam(
+						"pageSize", "500"
+					).build(
+					).toUri())
+			).getJSONArray(
+				"items"
+			).toList(),
 			HttpStatus.OK);
 	}
 
