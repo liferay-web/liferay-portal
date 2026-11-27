@@ -1096,6 +1096,7 @@
 			"active": true,
 			"enableCategorization": true,
 			"enableComments": true,
+			"enableFriendlyURLCustomization": true,
 			"enableObjectEntryDraft": true,
 			"externalReferenceCode": "P2S3_COURSE",
 			"label": {
@@ -1103,6 +1104,17 @@
 			},
 			"name": "P2S3Course",
 			"objectActions": [
+				{
+					"active": true,
+					"label": {
+						"en_US": "Add Friendly URL"
+					},
+					"name": "addFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterAdd",
+					"parameters": {
+					}
+				},
 				{
 					"active": true,
 					"errorMessage": {
@@ -1125,6 +1137,17 @@
 					"name": "setCourseStudentsRole",
 					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-permission",
 					"objectActionTriggerKey": "onAfterAdd",
+					"parameters": {
+					}
+				},
+				{
+					"active": true,
+					"label": {
+						"en_US": "Update Friendly URL"
+					},
+					"name": "updateFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterUpdate",
 					"parameters": {
 					}
 				}
@@ -3289,12 +3312,37 @@
 			"active": true,
 			"enableCategorization": true,
 			"enableComments": true,
+			"enableFriendlyURLCustomization": true,
 			"enableObjectEntryDraft": true,
 			"externalReferenceCode": "P2S3_LESSON",
 			"label": {
 				"en_US": "P2S3 Lesson"
 			},
 			"name": "P2S3Lesson",
+			"objectActions": [
+				{
+					"active": true,
+					"label": {
+						"en_US": "Add Friendly URL"
+					},
+					"name": "addFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterAdd",
+					"parameters": {
+					}
+				},
+				{
+					"active": true,
+					"label": {
+						"en_US": "Update Friendly URL"
+					},
+					"name": "updateFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterUpdate",
+					"parameters": {
+					}
+				}
+			],
 			"objectFields": [
 				{
 					"DBType": "Clob",
@@ -3559,12 +3607,37 @@
 		},
 		{
 			"active": true,
+			"enableFriendlyURLCustomization": true,
 			"enableObjectEntryDraft": true,
 			"externalReferenceCode": "P2S3_MODULE",
 			"label": {
 				"en_US": "P2S3 Module"
 			},
 			"name": "P2S3Module",
+			"objectActions": [
+				{
+					"active": true,
+					"label": {
+						"en_US": "Add Friendly URL"
+					},
+					"name": "addFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterAdd",
+					"parameters": {
+					}
+				},
+				{
+					"active": true,
+					"label": {
+						"en_US": "Update Friendly URL"
+					},
+					"name": "updateFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterUpdate",
+					"parameters": {
+					}
+				}
+			],
 			"objectFields": [
 				{
 					"DBType": "Clob",
@@ -3794,11 +3867,36 @@
 		},
 		{
 			"active": true,
+			"enableFriendlyURLCustomization": true,
 			"externalReferenceCode": "P2S3_QUIZ",
 			"label": {
 				"en_US": "P2S3 Quiz"
 			},
 			"name": "P2S3Quiz",
+			"objectActions": [
+				{
+					"active": true,
+					"label": {
+						"en_US": "Add Friendly URL"
+					},
+					"name": "addFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterAdd",
+					"parameters": {
+					}
+				},
+				{
+					"active": true,
+					"label": {
+						"en_US": "Update Friendly URL"
+					},
+					"name": "updateFriendlyURL",
+					"objectActionExecutorKey": "function#liferay-learn-etc-spring-boot-object-action-friendly-url",
+					"objectActionTriggerKey": "onAfterUpdate",
+					"parameters": {
+					}
+				}
+			],
 			"objectFields": [
 				{
 					"DBType": "Clob",
